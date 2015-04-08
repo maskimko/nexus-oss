@@ -65,7 +65,15 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
       store: 'RepositoryRecipe',
       queryMode: 'local',
       displayField: 'name',
-      valueField: 'id'
+      valueField: 'id',
+      listeners: {
+        change: function(args) {
+          console.log('onchange: ');
+          console.log(args);
+        }
+      }
     });
+    
+    //TODO - listen for changes to the recipe and update form as appropriate
   }
 });

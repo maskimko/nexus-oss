@@ -28,6 +28,12 @@ Ext.define('NX.coreui.model.Repository', {
     'online',
     'status',
     'attributes',
-    'url'
+    'url',
+    {
+      name: 'attributesMap',
+      convert: function(val, row) {
+        return Ext.decode(row.get('attributes'));
+      }
+    }
   ]
 });
