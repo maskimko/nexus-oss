@@ -32,7 +32,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
         Ext.apply(attributes, {
           proxy: {
             remoteUrl: properties['proxy.remoteUrl'],
-            artifactMaxAge: properties['proxy.artifactMaxAge']
+            artifactMaxAge: parseInt(properties['proxy.artifactMaxAge'])
           }  
         });
       },
@@ -108,7 +108,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           maven: {
             versionPolicy: properties['maven.versionPolicy'],
             checksumPolicy: properties['maven.checksumPolicy'],
-            strictContentTypeValidation: properties['maven.strictContentTypeValidation']
+            strictContentTypeValidation: Boolean.valueOf(properties['maven.strictContentTypeValidation'])
           }
         });
       },
@@ -116,7 +116,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
         Ext.apply(properties, {
           'maven.versionPolicy': attributes.maven.versionPolicy,
           'maven.checksumPolicy': attributes.maven.checksumPolicy,
-          'maven.strictContentTypeValidation': attributes.maven.strictContentTypeValidation,
+          'maven.strictContentTypeValidation': attributes.maven.strictContentTypeValidation
         });
       }
     },
@@ -145,8 +145,8 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
         Ext.apply(attributes, {
           httpclient: { 
             connection: {
-              retries: properties['httpclient.connection.retries'],
-              timeout: properties['httpclient.connection.timeout']
+              retries: parseInt(properties['httpclient.connection.retries']),
+              timeout: parseInt(properties['httpclient.connection.timeout'])
             }
           }
         });
@@ -205,11 +205,12 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
     });
     return properties;
   },
-  mapAttributes: function(model, properties) {
-    var me = this, attributes = model.get('attributesMap');
-    var recipe = me.getRecipe(me.recipeName(model));
+  mapAttributes: function(recipeName, properties) {
+    var me = this, attributes = {};
+    var recipe = me.getRecipe(recipeName);
     Ext.each(recipe, function(facet) {
       facet.toMap(properties, attributes);
     });
+    return Ext.encode(attributes);
   }
 });

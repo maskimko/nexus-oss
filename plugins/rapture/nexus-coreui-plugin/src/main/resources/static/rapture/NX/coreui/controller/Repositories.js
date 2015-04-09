@@ -260,20 +260,46 @@ Ext.define('NX.coreui.controller.Repositories', {
       me.stopStatusPolling();
     }
   },
-  
-  updateRepository: function(button){
+
+  updateRepository: function(button) {
     var me = this,
         form = button.up('form'),
         values = form.getValues();
-  //TODO - KR submit logic
+
+    NX.direct.coreui_Repository.update(values, function(response) {
+      if (Ext.isObject(response)) {
+        if (response.success) {
+          NX.Messages.add({
+            text: 'WORKED!!!',
+            type: 'success'
+          });
+          me.loadStoreAndSelect(response.data.id, false);
+        }
+        else if (Ext.isDefined(response.errors)) {
+          form.markInvalid(response.errors);
+        }
+      }
+    });
   },
-  
-  
+
   createRepository: function(button) {
     var me = this,
         form = button.up('form'),
         values = form.getValues();
-    //TODO - KR submit logic  
+    NX.direct.coreui_Repository.create(values, function(response) {
+      if (Ext.isObject(response)) {
+        if (response.success) {
+          NX.Messages.add({
+            text: 'WORKED!!!',
+            type: 'success'
+          });
+          me.loadStoreAndSelect(response.data.id, false);
+        }
+        else if (Ext.isDefined(response.errors)) {
+          form.markInvalid(response.errors);
+        }
+      }
+    });
   }
 
 });
