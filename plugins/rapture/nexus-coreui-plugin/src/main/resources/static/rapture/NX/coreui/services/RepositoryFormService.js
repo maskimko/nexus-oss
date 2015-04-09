@@ -1,140 +1,148 @@
 Ext.define('NX.coreui.services.RepositoryFormService', {
-  requires: [
-    'NX.coreui.services.ClientStores'
+  singleton: true,
+  mixins: [
+    'NX.LogAware'
   ],
-  //facets :{
-  //  proxy: Ext.emptyFn,
-  //  negativeCache: Ext.emptyFn,
-  //  view: Ext.emptyFn,
-  //  storage: function(data) {
-  //    return [
-  //      new Ext.form.FieldSet({name: 'storage', title: 'Storage', items:[
-  //        new Ext.form.Text({name: 'writePolicy', fieldLabel: 'Write Policy', value: data ? data.writePolicy : null})    
-  //      ]})
-  //    ]
-  //    //"writePolicy" : "ALLOW"
-  //
-  //  },
-  //  maven: function(data) {
-  //    //"strictContentTypeValidation" : false,
-  //    //    "versionPolicy" : "MIXED",
-  //    //    "checksumPolicy" : "WARN"
-  //  },
-  //  httpclient: function(data){
-  //    //"connection" : {
-  //    //  "retries" : 3,
-  //    //      "timeout" : 1500
-  //    //}
-  //  }
-  //},
+  requires: [
+    'NX.I18n'
+  ],
 
-  statics: {
-    fieldsFor: function(attributesMap) {
-
-      //var writePolicies = Ext.create('Ext.data.Store', {
-      //      fields: ['name'],
-      //      data: [
-      //        {'name': 'ALLOW'},
-      //        {'name': 'ALLOW_ONCE'},
-      //        {'name': 'DENY'}
-      //      ]
-      //    }),
-      //    versionPolicies = Ext.create('Ext.data.Store', {
-      //      fields: ['name'],
-      //      data: [
-      //        {'name': 'RELEASE'},
-      //        {'name': 'SNAPSHOT'},
-      //        {'name': 'MIXED'}
-      //      ]
-      //    }),
-      //    checksumPolicies = Ext.create('Ext.data.Store', {
-      //      fields: ['name'],
-      //      data: [
-      //        {'name': 'IGNORE'},
-      //        {'name': 'WARN'},
-      //        {'name': 'STRICT_IF_EXISTS'},
-      //        {'name': 'STRICT'}
-      //      ]
-      //    });
-
-      var facets = {
-        proxy: function(data) {
-          //"remoteUrl" : "http://repo1.maven.org/maven2/",
-          //    "artifactMaxAge" : 3600
+  facetFields: {
+    proxy: function(attributesMap) {
+      var data = attributesMap['proxy'];
+      return [
+        {
+          id: 'proxy.remoteUrl',
+          label: 'Remote URL',
+          helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
+          required: true,
+          initialValue: data ? data.remoteUrl : null
         },
-        negativeCache: Ext.emptyFn,
-        view: Ext.emptyFn,
-        storage: function(data) {
-          return [
-            Ext.create('Ext.form.ComboBox', {
-              fieldLabel: 'Write Policy',
-              name: 'writePolicy',
-              store: NX.coreui.services.ClientStores.writePolicies,
-              queryMode: 'local',
-              displayField: 'name',
-              valueField: 'name',
-              value: data ? data.writePolicy : null
-            })
-          ]
+        {
+          id: 'proxy.artifactMaxAge',
+          type: 'number',
+          label: 'Maximum Artifact Age',
+          required: true,
+          initialValue: data ? data.artifactMaxAge : null,
+          minValue: -1,
+          maxValue: 3600
+        }
+      ]
+    },
+    negativeCache: Ext.emptyFn,
+    view: Ext.emptyFn,
+    storage: function(attributesMap) {
+      var data = attributesMap['storage'];
+      return [
+        {
+          id: 'storage.writePolicies',
+          type: 'combo',
+          label: 'Write Policy',
+          required: true,
+          storeApi: 'coreui_Repository.readWritePolicies',
+          initialValue: data ? data.writePolicy : null
+        }
+      ];
+    },
+    maven: function(attributesMap) {
+      var data = attributesMap['maven'];
+      return [
+        {
+          id: 'maven.versionPolicy',
+          type: 'combo',
+          label: 'Version Policy',
+          required: true,
+          storeApi: 'coreui_Repository.readVersionPolicies',
+          initialValue: data ? data.versionPolicy : null
         },
-        maven: function(data) {
-          return [
-              //Ext.create('Ext.form.CheckBox', {
-              //  
-              //}),
-            Ext.create('Ext.form.ComboBox', {
-              fieldLabel: 'Version Policy',
-              store: NX.coreui.services.ClientStores.versionPolicies,
-              name: 'versionPolicy',
-              queryMode: 'local',
-              displayField: 'name',
-              valueField: 'name',
-              value: data ? data.versionPolicy : null
-            }),
-            Ext.create('Ext.form.ComboBox', {
-              fieldLabel: 'Checksum Policy',
-              store: NX.coreui.services.ClientStores.checksumPolicies,
-              name: 'checksumPolicy',
-              queryMode: 'local',
-              displayField: 'name',
-              valueField: 'name',
-              value: data ? data.checksumPolicy : null
-            })
-          ]
-          //"strictContentTypeValidation" : false,
-          //    "versionPolicy" : "MIXED",
-          //    "checksumPolicy" : "WARN"
+        {
+          id: 'maven.checksumPolicy',
+          type: 'combo',
+          label: 'Checksum Policy',
+          required: true,
+          storeApi: 'coreui_Repository.readChecksumPolicies',
+          initialValue: data ? data.checksumPolicy : null
         },
-        httpclient: function(data) {
-          //"connection" : {
-          //  "retries" : 3,
-          //      "timeout" : 1500
-          //}
+        {
+          id: 'maven.strictContentTypeValidation',
+          type: 'checkbox',
+          label: 'Strict Content Type Validation',
+          required: true,
+          initialValue: data ? data.strictContentTypeValidation : null
         }
-      };
-      var items = [];
-      Ext.iterate(attributesMap, function(key, value) {
-        console.log(key);
-        var facet = facets[key];
-        if (!facet) {
-          console.log('No facet configured for: ' + key);
+      ]
+    },
+    httpclient: function(attributesMap) {
+      var data = attributesMap['httpclient'];
+      return [
+        {
+          id: 'httpclient.connection.retries',
+          type: 'number',
+          label: 'Connection Retries',
+          required: true,
+          minValue: 0,
+          maxValue: 20
+        },
+        {
+          id: 'httpclient.connection.timeout',
+          type: 'number',
+          label: 'Connection Timeout',
+          required: true,
+          minValue: 1,
+          maxValue: 10000
         }
-        else {
-          items.push.apply(items, facet(value));
-          //items.push(new Ext.form.FieldSet({title: Ext.String.capitalize(key)}));
-          //Ext.iterate(value, function(k, v) {
-          //  items.push(new Ext.form.Text({
-          //        name: 'attributes.' + key + '.' + k,
-          //        itemId: 'attributes.' + key + '.' + k,
-          //        fieldLabel: Ext.String.capitalize(k),
-          //        value: v
-          //      })
-          //  );
-          //});  
-        }
-
-      });
-      return items;
+      ]
     }
+  },
+  getRecipe: function(recipeName) {
+    var me = this, recipes = {
+      'maven2-proxy': [
+        me.facetFields.proxy, me.facetFields.maven, me.facetFields.storage, me.facetFields.httpclient
+      ],
+      'maven2-hosted': [
+        me.facetFields.maven, me.facetFields.storage
+      ],
+      'maven2-group': [
+        me.facetFields.maven, me.facetFields.storage/*, me.facetFields.group*/
+      ],
+      'nuget-hosted': [],
+      'nuget-proxy':[
+        me.facetFields.proxy,
+        me.facetFields.httpclient
+      ],
+      'nuget-group': [ /*me.facetFields.group*/]
+    }, recipe = recipes[recipeName];
+    if (!recipe) {
+      me.logDebug('Unable to find recipe for format: ' + format + ' and type: ' + type);
+    }
+    return recipe || [];
+  },
+  fieldsForModel: function(model) {
+    return this.fieldsFor(model.get('format') + '-' + model.get('type'), model.get('attributesMap'));
+  },
+  fieldsFor: function(recipeName, attributesMap) {
+    var me = this, items = [];
+    var recipe = me.getRecipe(recipeName);
+    Ext.each(recipe, function(facet) {
+      items.push.apply(items, facet(attributesMap || {}));
+    });
+    return items;  
+  },
+  propertiesForModel : function(model) {
+    var me = this, attributesMap = model.get('attributesMap'), properties = {};
+    //TODO - trnaslate these per 'facet'
+    for (var property in attributesMap) {
+      if (attributesMap.hasOwnProperty(property)) {
+        Ext.iterate(attributesMap[property], function (k,v) {
+           properties[property + '.' + k] = v;
+        });
+      }
+    }
+    return properties;
+  },
+  mapAttributes: function(record, attributes) {
+    //TODO - translate these back into attributes map
+    console.log('mapping attributes: ');
+    console.log(attributes);
   }
 });

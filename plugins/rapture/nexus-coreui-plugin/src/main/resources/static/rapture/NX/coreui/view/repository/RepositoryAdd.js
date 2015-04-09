@@ -22,7 +22,8 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
   alias: 'widget.nx-coreui-repository-add',
   requires: [
     'NX.Conditions',
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.services.RepositoryFormService'
   ],
 
   defaultFocus: 'recipe',
@@ -35,9 +36,6 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
 
     me.settingsForm = {
       xtype: 'nx-coreui-repository-settings-form',
-      api: {
-        submit: 'NX.direct.coreui_Repository.create'
-      },
       settingsFormSuccessMessage: function(data) {
         return NX.I18n.get('ADMIN_REPOSITORIES_CREATE_SUCCESS') + data['name'];
       },
@@ -67,13 +65,13 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
       displayField: 'name',
       valueField: 'id',
       listeners: {
-        change: function(args) {
-          console.log('onchange: ');
-          console.log(args);
+        change: function(combo) {
+          var me = this,
+              settingsFieldSet = me.up('form').down('nx-coreui-formfield-settingsfieldset');
+          settingsFieldSet.importProperties([],
+              NX.coreui.services.RepositoryFormService.fieldsFor(combo.value));
         }
       }
     });
-    
-    //TODO - listen for changes to the recipe and update form as appropriate
   }
 });

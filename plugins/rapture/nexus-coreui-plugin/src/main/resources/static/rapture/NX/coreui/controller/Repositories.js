@@ -105,6 +105,12 @@ Ext.define('NX.coreui.controller.Repositories', {
         },
         'nx-coreui-repository-settings-form': {
           submitted: me.onSettingsSubmitted
+        },
+        'nx-coreui-repository-settings button[action=save]': {
+          click: me.updateRepository
+        },
+        'nx-coreui-repository-add button[action=add]': {
+          click: me.createRepository
         }
       }
     });
@@ -253,6 +259,21 @@ Ext.define('NX.coreui.controller.Repositories', {
     else {
       me.stopStatusPolling();
     }
+  },
+  
+  updateRepository: function(button){
+    var me = this,
+        form = button.up('form'),
+        values = form.getValues();
+  //TODO - KR submit logic
+  },
+  
+  
+  createRepository: function(button) {
+    var me = this,
+        form = button.up('form'),
+        values = form.getValues();
+    //TODO - KR submit logic  
   }
 
 });

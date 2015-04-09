@@ -31,6 +31,7 @@ import org.sonatype.nexus.repository.config.Configuration
 import org.sonatype.nexus.repository.group.GroupFacet
 import org.sonatype.nexus.repository.httpclient.HttpClientFacet
 import org.sonatype.nexus.repository.manager.RepositoryManager
+import org.sonatype.nexus.repository.storage.WritePolicy
 import org.sonatype.nexus.repository.view.ViewFacet
 import org.sonatype.nexus.web.BaseUrlHolder
 
@@ -75,6 +76,30 @@ extends DirectComponentSupport
     }
   }
 
+  @DirectMethod
+  List<ReferenceXO> readWritePolicies() {
+    WritePolicy.values().collect{ WritePolicy writePolicy ->
+      new ReferenceXO(
+          id: writePolicy.name(),
+          name: writePolicy.name()
+      )
+    }
+  }
+
+  @DirectMethod
+  List<ReferenceXO> readVersionPolicies() {
+    ['RELEASE', 'SNAPSHOT', 'MIXED'].collect{  it
+      new ReferenceXO(id: it, name: it)
+    }
+  }
+
+  @DirectMethod
+  List<ReferenceXO> readChecksumPolicies() {
+    ['IGNORE', 'WARN', 'STRICT_IF_EXISTS', 'STRICT'].collect{  it
+      new ReferenceXO(id: it, name: it)
+    }
+  }
+  
   @DirectMethod
   @RequiresAuthentication
   @Validate(groups = [Create.class, Default.class])
