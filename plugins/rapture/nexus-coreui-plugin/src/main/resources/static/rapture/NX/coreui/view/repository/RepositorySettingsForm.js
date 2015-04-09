@@ -41,7 +41,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
       readOnly: true
     },
     {
-      xtype: 'hiddenfield',
+      xtype: 'textarea',
       name: 'attributes'
     },
     {xtype: 'nx-coreui-formfield-settingsfieldset'}
@@ -75,8 +75,8 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
           name: values.name,
           attributes: null
         };
-    var attributes = me.down('nx-coreui-formfield-settingsfieldset').exportProperties(values);
-    repository.attributes =  NX.coreui.services.RepositoryFormService.mapAttributes(record, attributes);
+    var properties = me.down('nx-coreui-formfield-settingsfieldset').exportProperties(values);
+    repository.attributes =  NX.coreui.services.RepositoryFormService.mapAttributes(record, properties);
     return repository;
   }
 });
