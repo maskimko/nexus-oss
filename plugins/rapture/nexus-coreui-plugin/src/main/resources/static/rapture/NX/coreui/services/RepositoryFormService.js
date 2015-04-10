@@ -157,8 +157,34 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           'httpclient.connection.timeout': attributes.httpclient.connection.timeout
         });
       }
+    },
+    group: {
+      fields: function() {
+        return [
+          {
+            id: 'group.memberNames',
+            idMapping: 'name',
+            type: 'combo',
+            label: 'Group Members',
+            required: true,
+            storeApi: 'coreui_Repository.read',
+            multiSelect: true
+          }
+        ]
+      },
+      toMap: function(properties, attributes) {
+        Ext.apply(attributes, {
+          group: {
+            memberNames: properties['group.memberNames'].split(',')
+          }
+        });
+      },
+      toProperties: function(attributes, properties) {
+        Ext.apply(properties, {
+          'group.memberNames': attributes.group.memberNames
+        });
+      }
     }
-
   },
   getRecipe: function(recipeName) {
     var me = this, recipes = {
@@ -169,14 +195,14 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
         me.facets.maven, me.facets.storage
       ],
       'maven2-group': [
-        me.facets.maven, me.facets.storage/*, me.facets.group*/
+        me.facets.maven, me.facets.storage, me.facets.group
       ],
       'nuget-hosted': [],
       'nuget-proxy': [
         me.facets.proxy,
         me.facets.httpclient
       ],
-      'nuget-group': [/*me.facets.group*/]
+      'nuget-group': [me.facets.group]
     }, recipe = recipes[recipeName];
     if (!recipe) {
       me.logDebug('Unable to find recipe for recipe: ' + recipeName);
