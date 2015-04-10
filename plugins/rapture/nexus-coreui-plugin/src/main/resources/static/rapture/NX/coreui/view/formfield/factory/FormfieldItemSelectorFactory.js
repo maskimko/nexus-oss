@@ -54,14 +54,12 @@ Ext.define('NX.coreui.view.formfield.factory.FormfieldItemSelectorFactory', {
           allowBlank: !formField.required,
           buttons: ['up', 'add', 'remove', 'down'],
           fromTitle: formField.fromTitle,
-          toTitle: formField.toTitle
+          toTitle: formField.toTitle,
+          store: formField.store
         };
 
     if (formField.initialValue) {
       itemConfig.value = formField.initialValue;
-    }
-    if (formField['store']) {
-      itemConfig.store = formField['store']; 
     }
     
     item = Ext.create('NX.ext.form.field.ItemSelector', itemConfig);
