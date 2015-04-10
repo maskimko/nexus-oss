@@ -159,16 +159,28 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
       }
     },
     group: {
-      fields: function() {
+      fields: function(recipeName) {
+        var repositoryStore = Ext.create('NX.coreui.store.RepositoryReference');
+        repositoryStore.filter([
+          { property: 'format', value: recipeName.split('-')[0] }
+        ]);
+        repositoryStore.load();
         return [
           {
             id: 'group.memberNames',
             idMapping: 'name',
-            type: 'combo',
+            type: 'itemselector',
             label: 'Group Members',
             required: true,
-            storeApi: 'coreui_Repository.read',
-            multiSelect: true
+            fieldLabel: NX.I18n.get('ADMIN_ROUTING_SETTINGS_REPOSITORIES'),
+            helpText: NX.I18n.get('ADMIN_ROUTING_SETTINGS_REPOSITORIES_HELP'),
+            buttons: ['up', 'add', 'remove', 'down'],
+            fromTitle: NX.I18n.get('ADMIN_ROUTING_SETTINGS_AVAILABLE'),
+            toTitle: NX.I18n.get('ADMIN_ROUTING_SETTINGS_ORDERED'),
+            store: repositoryStore,
+            valueField: 'id',
+            displayField: 'name',
+            delimiter: null
           }
         ]
       },
@@ -219,7 +231,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
     var me = this, items = [];
     var recipe = me.getRecipe(recipeName);
     Ext.each(recipe, function(facet) {
-      items.push.apply(items, facet.fields());
+      items.push.apply(items, facet.fields(recipeName));
     });
     return items;
   },
