@@ -98,9 +98,6 @@ Ext.define('NX.coreui.view.formfield.factory.FormfieldComboFactory', {
         autoLoad: true
       });
     }
-    if(formField['multiSelect']) {
-      itemConfig.multiSelect = true;
-    }
     item = Ext.create('Ext.form.ComboBox', itemConfig);
     Ext.override(item, {
       /**
