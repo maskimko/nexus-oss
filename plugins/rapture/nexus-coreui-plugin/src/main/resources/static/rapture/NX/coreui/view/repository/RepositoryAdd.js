@@ -53,6 +53,8 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
     me.callParent();
 
     me.down('#name').setReadOnly(false);
+    me.down('#format').setVisible(false);
+    me.down('#type').setVisible(false);
     me.down('nx-settingsform').add(0, {
       xtype: 'combo',
       name: 'recipe',

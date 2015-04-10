@@ -54,7 +54,7 @@ Ext.define('NX.coreui.controller.Repositories', {
     },
     'repository-proxy': {
       file: 'database_link.png',
-      variants: ['x16', 'x32']  
+      variants: ['x16', 'x32']
     },
     'repository-group': {
       file: 'folder_database.png',
@@ -270,7 +270,7 @@ Ext.define('NX.coreui.controller.Repositories', {
       if (Ext.isObject(response)) {
         if (response.success) {
           NX.Messages.add({
-            text: 'WORKED!!!',
+            text: NX.I18n.format('ADMIN_REPOSITORIES_UPDATE_SUCCESS', response.data.name),
             type: 'success'
           });
           me.loadStoreAndSelect(response.data.id, false);
@@ -290,7 +290,7 @@ Ext.define('NX.coreui.controller.Repositories', {
       if (Ext.isObject(response)) {
         if (response.success) {
           NX.Messages.add({
-            text: 'WORKED!!!',
+            text: NX.I18n.format('ADMIN_REPOSITORIES_CREATE_SUCCESS', response.data.name),
             type: 'success'
           });
           me.loadStoreAndSelect(response.data.id, false);

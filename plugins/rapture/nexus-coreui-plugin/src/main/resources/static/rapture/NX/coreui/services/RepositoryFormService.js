@@ -14,14 +14,16 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
         return [
           {
             id: 'proxy.remoteUrl',
-            label: 'Remote URL',
-            helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-            required: true
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
+            required: true,
+            vtype: 'url'
           },
           {
             id: 'proxy.artifactMaxAge',
             type: 'number',
-            label: 'Maximum Artifact Age',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE_HELP'),
             required: true,
             minValue: -1,
             maxValue: 3600
@@ -33,7 +35,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           proxy: {
             remoteUrl: properties['proxy.remoteUrl'],
             artifactMaxAge: parseInt(properties['proxy.artifactMaxAge'])
-          }  
+          }
         });
       },
       toProperties: function(attributes, properties) {
@@ -59,7 +61,8 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           {
             id: 'storage.writePolicy',
             type: 'combo',
-            label: 'Write Policy',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_HELP'),
             required: true,
             storeApi: 'coreui_Repository.readWritePolicies'
           }
@@ -84,14 +87,15 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           {
             id: 'maven.versionPolicy',
             type: 'combo',
-            label: 'Version Policy',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY_HELP'),
             required: true,
             storeApi: 'coreui_Repository.readVersionPolicies'
           },
           {
             id: 'maven.checksumPolicy',
             type: 'combo',
-            label: 'Checksum Policy',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM'),
             required: true,
             storeApi: 'coreui_Repository.readChecksumPolicies'
           },
@@ -126,7 +130,8 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           {
             id: 'httpclient.connection.retries',
             type: 'number',
-            label: 'Connection Retries',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES_HELP'),
             required: true,
             minValue: 0,
             maxValue: 20
@@ -134,16 +139,16 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
           {
             id: 'httpclient.connection.timeout',
             type: 'number',
-            label: 'Connection Timeout',
+            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT_HELP'),
             required: true,
-            minValue: 1,
-            maxValue: 10000
+            minValue: 0
           }
         ]
       },
       toMap: function(properties, attributes) {
         Ext.apply(attributes, {
-          httpclient: { 
+          httpclient: {
             connection: {
               retries: parseInt(properties['httpclient.connection.retries']),
               timeout: parseInt(properties['httpclient.connection.timeout'])
@@ -172,9 +177,9 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
             type: 'itemselector',
             label: 'Group Members',
             required: true,
-            helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_HELP'),
-            fromTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_FROM'),
-            toTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_TO'),
+            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_HELP'),
+            fromTitle: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_FROM'),
+            toTitle: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_TO'),
             store: repositoryStore,
             valueField: 'id',
             displayField: 'name'
@@ -236,7 +241,7 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
     var me = this, attributes = model.get('attributesMap'), properties = {};
     var recipe = me.getRecipe(me.recipeName(model));
     Ext.each(recipe, function(facet) {
-      facet.toProperties(attributes, properties);      
+      facet.toProperties(attributes, properties);
     });
     return properties;
   },

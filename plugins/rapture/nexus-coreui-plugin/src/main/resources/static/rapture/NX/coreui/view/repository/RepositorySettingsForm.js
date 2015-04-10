@@ -41,6 +41,22 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
       readOnly: true
     },
     {
+      xtype: 'textfield',
+      name: 'format',
+      itemId: 'format',
+      fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_FORMAT'),
+      allowBlank: true,
+      readOnly: true
+    },
+    {
+      xtype: 'textfield',
+      name: 'type',
+      itemId: 'type',
+      fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_TYPE'),
+      allowBlank: true,
+      readOnly: true
+    },
+    {
       xtype: 'hiddenfield',
       name: 'attributes'
     },
@@ -59,7 +75,6 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
 
     settingsFieldSet.importProperties(NX.coreui.services.RepositoryFormService.propertiesForModel(model),
         NX.coreui.services.RepositoryFormService.fieldsForModel(model));
-
   },
 
   /**
