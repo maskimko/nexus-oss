@@ -172,15 +172,12 @@ Ext.define('NX.coreui.services.RepositoryFormService', {
             type: 'itemselector',
             label: 'Group Members',
             required: true,
-            fieldLabel: NX.I18n.get('ADMIN_ROUTING_SETTINGS_REPOSITORIES'),
-            helpText: NX.I18n.get('ADMIN_ROUTING_SETTINGS_REPOSITORIES_HELP'),
-            buttons: ['up', 'add', 'remove', 'down'],
-            fromTitle: NX.I18n.get('ADMIN_ROUTING_SETTINGS_AVAILABLE'),
-            toTitle: NX.I18n.get('ADMIN_ROUTING_SETTINGS_ORDERED'),
+            helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_HELP'),
+            fromTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_FROM'),
+            toTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_TO'),
             store: repositoryStore,
             valueField: 'id',
-            displayField: 'name',
-            delimiter: null
+            displayField: 'name'
           }
         ]
       },

@@ -25,17 +25,16 @@ Ext.define('NX.coreui.view.formfield.factory.FormfieldItemSelectorFactory', {
     'nx.formfield.factory.itemselector'
   ],
   requires: [
-    'Ext.data.Store',
-    'NX.util.Url'
+    'Ext.data.Store'
   ],
   mixins: {
     logAware: 'NX.LogAware'
   },
 
   /**
-   * Creates a combo.
-   * @param formField form field to create combo for
-   * @returns {*} created combo (never null)
+   * Creates an itemselector.
+   * @param formField form field to create itemselector for
+   * @returns {*} created itemselector (never null)
    */
   create: function (formField) {
     var item, 
@@ -51,9 +50,11 @@ Ext.define('NX.coreui.view.formfield.factory.FormfieldItemSelectorFactory', {
           forceSelection: true,
           queryMode: 'local',
           triggerAction: 'all',
-          emptyText: 'Select...',
           selectOnFocus: false,
-          allowBlank: !formField.required
+          allowBlank: !formField.required,
+          buttons: ['up', 'add', 'remove', 'down'],
+          fromTitle: formField.fromTitle,
+          toTitle: formField.toTitle
         };
 
     if (formField.initialValue) {
@@ -64,18 +65,6 @@ Ext.define('NX.coreui.view.formfield.factory.FormfieldItemSelectorFactory', {
     }
     
     item = Ext.create('NX.ext.form.field.ItemSelector', itemConfig);
-    //Ext.override(item, {
-    //  /**
-    //   * Avoid value being set to null by combobox in case that store was not already loaded.
-    //   */
-    //  setValue: function (value) {
-    //    var me = this;
-    //    me.callParent(arguments);
-    //    if (me.getValue() === null) {
-    //      me.value = value;
-    //    }
-    //  }
-    //});
     return item;
   }
 
