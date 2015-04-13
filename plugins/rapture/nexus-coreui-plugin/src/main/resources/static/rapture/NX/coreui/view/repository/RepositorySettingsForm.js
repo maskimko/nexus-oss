@@ -23,9 +23,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
   requires: [
     'NX.Conditions',
     'NX.I18n',
-    'NX.coreui.services.RepositoryFormService'
+    'NX.coreui.service.RepositoryFormService'
   ],
-  
+
   settingsFormSuccessMessage: function(data) {
     return NX.I18n.get('ADMIN_REPOSITORIES_UPDATE_SUCCESS') + data['name'];
   },
@@ -73,8 +73,8 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
         settingsFieldSet = me.down('nx-coreui-formfield-settingsfieldset');
     me.callParent(arguments);
 
-    settingsFieldSet.importProperties(NX.coreui.services.RepositoryFormService.propertiesForModel(model),
-        NX.coreui.services.RepositoryFormService.fieldsForModel(model));
+    settingsFieldSet.importProperties(NX.coreui.service.RepositoryFormService.propertiesForModel(model),
+        NX.coreui.service.RepositoryFormService.fieldsForModel(model));
   },
 
   /**
@@ -92,7 +92,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
           attributes: null
         };
     var properties = me.down('nx-coreui-formfield-settingsfieldset').exportProperties(values);
-    repository.attributes =  NX.coreui.services.RepositoryFormService.mapAttributes(repository.recipe, properties);
+    repository.attributes =  NX.coreui.service.RepositoryFormService.mapAttributes(repository.recipe, properties);
     return repository;
   }
 });

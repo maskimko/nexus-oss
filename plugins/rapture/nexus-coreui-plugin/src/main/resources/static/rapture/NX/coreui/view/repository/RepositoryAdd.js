@@ -23,7 +23,7 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
   requires: [
     'NX.Conditions',
     'NX.I18n',
-    'NX.coreui.services.RepositoryFormService'
+    'NX.coreui.service.RepositoryFormService'
   ],
 
   defaultFocus: 'recipe',
@@ -71,7 +71,7 @@ Ext.define('NX.coreui.view.repository.RepositoryAdd', {
           var me = this,
               settingsFieldSet = me.up('form').down('nx-coreui-formfield-settingsfieldset');
           settingsFieldSet.importProperties([],
-              NX.coreui.services.RepositoryFormService.fieldsFor(combo.value));
+              NX.coreui.service.RepositoryFormService.fieldsFor(combo.value));
         }
       }
     });
