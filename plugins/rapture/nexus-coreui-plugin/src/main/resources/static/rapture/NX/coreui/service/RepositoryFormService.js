@@ -16,47 +16,14 @@ Ext.define('NX.coreui.service.RepositoryFormService', {
     'NX.LogAware'
   ],
   requires: [
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.service.ProxyFacet'
+  ],
+  facetNames: [
+    'NX.coreui.service.ProxyFacet'
   ],
 
   facets: {
-
-    proxy: {
-      fields: function() {
-        return [
-          {
-            id: 'proxy.remoteUrl',
-            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
-            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-            required: true,
-            vtype: 'url'
-          },
-          {
-            id: 'proxy.artifactMaxAge',
-            type: 'number',
-            label: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE'),
-            helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE_HELP'),
-            required: true,
-            minValue: -1,
-            maxValue: 3600
-          }
-        ]
-      },
-      toMap: function(properties, attributes) {
-        Ext.apply(attributes, {
-          proxy: {
-            remoteUrl: properties['proxy.remoteUrl'],
-            artifactMaxAge: parseInt(properties['proxy.artifactMaxAge'])
-          }
-        });
-      },
-      toProperties: function(attributes, properties) {
-        Ext.apply(properties, {
-          'proxy.remoteUrl': attributes.proxy.remoteUrl,
-          'proxy.artifactMaxAge': attributes.proxy.artifactMaxAge
-        });
-      }
-    },
     negativeCache: {
       fields: Ext.emptyFn,
       toMap: Ext.emptyFn,
@@ -264,5 +231,13 @@ Ext.define('NX.coreui.service.RepositoryFormService', {
       facet.toMap(properties, attributes);
     });
     return Ext.encode(attributes);
+  },
+  constructor: function(config) {
+    this.initConfig(config);
+    Ext.each(this.facetNames, function(facetName){
+      var proxyFacet = Ext.create(facetName);
+      this.facets[proxyFacet.getName()] = proxyFacet;
+    })
   }
+
 });
