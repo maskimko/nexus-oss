@@ -63,6 +63,8 @@ public class HttpClientFacetImpl
     return httpClient.getStatus();
   }
 
+  // FIXME: Will need to undo some of this config marshalling to be able to validate using config-facet
+
   @Override
   protected void doConfigure(final Configuration configuration) throws Exception {
     NestedAttributesMap attributes = configuration.attributes(CONFIG_KEY);
