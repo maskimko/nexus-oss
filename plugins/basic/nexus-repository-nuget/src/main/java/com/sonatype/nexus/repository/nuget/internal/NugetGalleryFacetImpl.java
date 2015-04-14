@@ -110,8 +110,9 @@ public class NugetGalleryFacetImpl
   private static final VersionScheme SCHEME = new GenericVersionScheme();
 
   @Override
-  protected void doConfigure(final Configuration configuration) throws Exception {
-    storage = getRepository().facet(StorageFacet.class);
+  protected void doInit(final Configuration configuration) throws Exception {
+    super.doInit(configuration);
+    storage = facet(StorageFacet.class);
   }
 
   @Override
