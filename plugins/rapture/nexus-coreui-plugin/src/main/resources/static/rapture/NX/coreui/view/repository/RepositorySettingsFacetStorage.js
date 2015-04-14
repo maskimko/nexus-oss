@@ -21,12 +21,8 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
   extend: 'Ext.form.FieldContainer',
   alias: 'widget.nx-coreui-repository-settings-facet-storage',
   requires: [
-    'NX.I18n',
+    'NX.I18n'
   ],
-
-  defaults: {
-    xtype: 'textfield'
-  },
 
   initComponent: function() {
     var me = this;
@@ -44,6 +40,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
           ['ALLOW_ONCE', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_DISABLE_ITEM')],
           ['DENY', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_RO_ITEM')]
         ],
+        value: 'DENY',
         queryMode: 'local',
         allowBlank: false,
         itemCls: 'required-field'

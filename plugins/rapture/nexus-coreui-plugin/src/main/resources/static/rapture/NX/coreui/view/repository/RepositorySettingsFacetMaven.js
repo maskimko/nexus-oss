@@ -44,6 +44,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['RELEASE', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_RELEASE_ITEM')],
           ['SNAPSHOT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_SNAPSHOTS_ITEM')]
         ],
+        value: 'RELEASE',
         queryMode: 'local',
         readOnly: true,
         allowBlank: false,
@@ -61,6 +62,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['STRICT_IF_EXISTS', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_EXISTS_ITEM')],
           ['STRICT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
         ],
+        value: 'STRICT',
         queryMode: 'local',
         allowBlank: false,
         itemCls: 'required-field'
