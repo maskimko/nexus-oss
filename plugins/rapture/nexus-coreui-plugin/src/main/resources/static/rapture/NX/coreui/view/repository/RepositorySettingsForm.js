@@ -39,24 +39,64 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
 
     me.editableCondition = me.editableCondition || NX.Conditions.isPermitted('nexus:repositories', 'update');
 
-    me.items = [
+    me.items = me.items || [];
+    Ext.Array.insert(me.items, 0, [
       {
         xtype: 'textfield',
         name: 'name',
         itemId: 'name',
         fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_NAME'),
         readOnly: true
-      },
-      {
-        xtype: 'textarea',
-        name: 'attributes',
-        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ATTRIBUTES'),
-        height: 300,
-        allowBlank: true,
-        cls: 'nx-log-viewer-field'
       }
-    ];
+    ]);
 
     me.callParent(arguments);
+
+    Ext.override(me.getForm(), {
+      getValues: function() {
+        var processed = { attributes: {} },
+            values = this.callParent(arguments);
+
+        Ext.Object.each(values, function(key, value) {
+          var segments = key.split('.'),
+              parent = segments.length == 1 ? processed : processed['attributes'];
+
+          Ext.each(segments, function(segment, pos) {
+            if (pos === segments.length - 1) {
+              parent[segment] = value;
+            }
+            else {
+              if (!parent[segment]) {
+                parent[segment] = {};
+              }
+              parent = parent[segment];
+            }
+          });
+        });
+
+        return processed;
+      },
+
+      setValues: function(values) {
+        var process = function(child, prefix) {
+              Ext.Object.each(child, function(key, value) {
+                var newPrefix = (prefix ? prefix + '.' : '') + key;
+                if (Ext.isObject(value)) {
+                  process(value, newPrefix);
+                }
+                else {
+                  values[newPrefix] = value;
+                }
+              });
+            };
+
+        if (values['attributes']) {
+          process(values['attributes']);
+        }
+
+        this.callParent(arguments);
+      }
+    });
   }
+
 });

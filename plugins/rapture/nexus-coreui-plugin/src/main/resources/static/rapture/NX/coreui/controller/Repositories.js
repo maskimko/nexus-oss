@@ -39,8 +39,17 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.RepositoryAdd',
     'repository.RepositoryFeature',
     'repository.RepositoryList',
+    'repository.RepositorySelectRecipe',
     'repository.RepositorySettings',
-    'repository.RepositorySettingsForm'
+    'repository.RepositorySettingsFacetMaven',
+    'repository.RepositorySettingsFacetProxy',
+    'repository.RepositorySettingsFacetStorage',
+    'repository.RepositorySettingsFacetView',
+    'repository.RepositorySettingsForm',
+    'repository.RepositorySettingsFormMavenHosted',
+    'repository.RepositorySettingsFormMavenProxy',
+    'repository.RepositorySettingsFormNugetHosted',
+    'repository.RepositorySettingsFormNugetProxy'
   ],
   refs: [
     { ref: 'feature', selector: 'nx-coreui-repository-feature' },
@@ -54,7 +63,7 @@ Ext.define('NX.coreui.controller.Repositories', {
     },
     'repository-proxy': {
       file: 'database_link.png',
-      variants: ['x16', 'x32']  
+      variants: ['x16', 'x32']
     },
     'repository-group': {
       file: 'folder_database.png',
@@ -101,10 +110,13 @@ Ext.define('NX.coreui.controller.Repositories', {
           beforedestroy: me.stopStatusPolling
         },
         'nx-coreui-repository-list button[action=new]': {
-          click: me.showAddWindow
+          click: me.showSelectRecipePanel
         },
         'nx-coreui-repository-settings-form': {
           submitted: me.onSettingsSubmitted
+        },
+        'nx-coreui-repository-selectrecipe': {
+          cellclick: me.showAddRepositoryPanel
         }
       }
     });
@@ -121,23 +133,62 @@ Ext.define('NX.coreui.controller.Repositories', {
    * @override
    */
   onSelection: function(list, model) {
-    var me = this;
+    var me = this,
+        settingsPanel = me.getSettings(),
+        settingsForm = settingsPanel.down('nx-settingsform'),
+        settingsFormClass = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.get('recipe'));
 
     if (Ext.isDefined(model)) {
-      me.getSettings().loadRecord(model);
+      if (!settingsForm || settingsFormClass.xtype !== settingsForm.xtype) {
+        settingsPanel.removeAllSettingsForms();
+        settingsPanel.addSettingsForm({ xtype: settingsFormClass.xtype, recipe: model });
+      }
+      settingsPanel.loadRecord(model);
     }
   },
 
   /**
    * @private
    */
-  showAddWindow: function() {
+  showSelectRecipePanel: function() {
     var me = this,
         feature = me.getFeature();
 
     // Show the first panel in the create wizard, and set the breadcrumb
-    feature.setItemName(1, NX.I18n.get('ADMIN_REPOSITORIES_CREATE_TITLE'));
-    me.loadCreateWizard(1, true, Ext.create('widget.nx-coreui-repository-add'));
+    feature.setItemName(1, NX.I18n.get('ADMIN_REPOSITORIES_SELECT_TITLE'));
+    me.loadCreateWizard(1, true, Ext.widget({
+      xtype: 'panel',
+      layout: {
+        type: 'vbox',
+        align: 'stretch',
+        pack: 'start'
+      },
+      items: [
+        { xtype: 'nx-actions' },
+        {
+          xtype: 'nx-coreui-repository-selectrecipe',
+          flex: 1
+        }
+      ]
+    }));
+  },
+
+  /**
+   * @private
+   */
+  showAddRepositoryPanel: function(list, td, cellIndex, model) {
+    var me = this,
+        feature = me.getFeature(),
+        cmpClass = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-add-' + model.getId());
+
+    //if (cmpClass) {
+      // Show the second panel in the create wizard, and set the breadcrumb
+      feature.setItemName(2, NX.I18n.format('ADMIN_REPOSITORIES_CREATE_TITLE', model.get('name')));
+      me.loadCreateWizard(2, true, { xtype:'nx-coreui-repository-add',  recipe: model });
+    //}
+    //else {
+    //  me.logWarn('Could not find component for: ' + model.getId());
+    //}
   },
 
   /**

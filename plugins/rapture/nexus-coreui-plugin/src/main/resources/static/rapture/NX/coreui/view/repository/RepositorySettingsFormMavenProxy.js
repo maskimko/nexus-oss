@@ -10,35 +10,31 @@
  * of Sonatype, Inc. Apache Maven is a trademark of the Apache Software Foundation. M2eclipse is a trademark of the
  * Eclipse Foundation. All other trademarks are the property of their respective owners.
  */
-package org.sonatype.nexus.coreui
-
-import groovy.transform.ToString
-import org.hibernate.validator.constraints.NotEmpty
-import org.sonatype.nexus.common.validation.Create
+/*global Ext, NX*/
 
 /**
- * Repository exchange object.
+ * Repository "Settings" form.
  *
  * @since 3.0
  */
-@ToString(includePackage = false, includeNames = true)
-class RepositoryXO
-{
-  @NotEmpty
-  String name
+Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenProxy', {
+  extend: 'NX.coreui.view.repository.RepositorySettingsForm',
+  alias: 'widget.nx-coreui-repository-settings-form-maven2-proxy',
+  requires: [
+    'NX.Conditions',
+    'NX.I18n'
+  ],
 
-  String type
+  initComponent: function() {
+    var me = this;
 
-  String format
+    me.items = [
+      { xtype: 'nx-coreui-repository-settings-facet-view'},
+      { xtype: 'nx-coreui-repository-settings-facet-proxy'},
+      { xtype: 'nx-coreui-repository-settings-facet-storage'},
+      { xtype: 'nx-coreui-repository-settings-facet-maven2'}
+    ];
 
-  @NotEmpty(groups = Create)
-  String recipe
-
-  Boolean online
-
-  Map<String, Map<String, Object>> attributes
-
-  String url
-
-  RepositoryStatusXO status
-}
+    me.callParent(arguments);
+  }
+});

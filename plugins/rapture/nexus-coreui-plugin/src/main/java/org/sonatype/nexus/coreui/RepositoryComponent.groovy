@@ -57,9 +57,6 @@ extends DirectComponentSupport
   @Inject
   Map<String, Recipe> recipes
   
-  @Inject
-  AttributeConverter attributeConverter
-
   @DirectMethod
   List<RepositoryXO> read() {
     repositoryManager.browse().collect { asRepository(it) }
@@ -82,7 +79,7 @@ extends DirectComponentSupport
     return asRepository(repositoryManager.create(new Configuration(
         repositoryName: repository.name,
         recipeName: repository.recipe,
-        attributes: attributeConverter.asAttributes(repository.attributes)
+        attributes: repository.attributes
     )))
   }
 
@@ -91,7 +88,7 @@ extends DirectComponentSupport
   @Validate(groups = [Update.class, Default.class])
   RepositoryXO update(final @NotNull(message = '[repository] may not be null') @Valid RepositoryXO repository) {
     return asRepository(repositoryManager.update(repositoryManager.get(repository.name).configuration.with {
-      attributes = attributeConverter.asAttributes(repository.attributes)
+      attributes = repository.attributes
       return it
     }))
   }
@@ -108,9 +105,10 @@ extends DirectComponentSupport
         name: input.name,
         type: input.type,
         format: input.format,
+        recipe: input.configuration.recipeName,
         online: input.facet(ViewFacet).online,
         status: buildStatus(input),
-        attributes: attributeConverter.asAttributes(input.configuration.attributes),
+        attributes: input.configuration.attributes,
         url: "${BaseUrlHolder.get()}/repository/${input.name}"
     )
   }
