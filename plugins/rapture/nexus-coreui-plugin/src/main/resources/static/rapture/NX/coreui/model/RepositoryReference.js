@@ -13,36 +13,16 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Repository reference model.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
-  extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-proxy',
-  requires: [
-    'NX.I18n'
-  ],
-
-  defaults: {
-    allowBlank: false,
-    itemCls: 'required-field'
-  },
-  
-  initComponent: function() {
-    var me = this;
-
-    me.items = [
-      {
-        xtype: 'nx-url',
-        name: 'proxy.remoteUrl',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_PLACEHOLDER')
-      }
-    ];
-
-    me.callParent(arguments);
-  }
-
+Ext.define('NX.coreui.model.RepositoryReference', {
+  extend: 'Ext.data.Model',
+  fields: [
+    'id',
+    'name',
+    'type',
+    'format'
+  ]
 });

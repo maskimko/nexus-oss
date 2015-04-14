@@ -33,7 +33,8 @@ Ext.define('NX.coreui.controller.Repositories', {
   ],
   stores: [
     'NX.coreui.store.Repository',
-    'RepositoryRecipe'
+    'RepositoryRecipe',
+    'NX.coreui.store.RepositoryReference'
   ],
   views: [
     'repository.RepositoryAdd',
@@ -45,11 +46,14 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.RepositorySettingsFacetProxy',
     'repository.RepositorySettingsFacetStorage',
     'repository.RepositorySettingsFacetView',
+    'repository.RepositorySettingsFacetGroup',
     'repository.RepositorySettingsForm',
     'repository.RepositorySettingsFormMavenHosted',
     'repository.RepositorySettingsFormMavenProxy',
+    'repository.RepositorySettingsFormMavenGroup',
     'repository.RepositorySettingsFormNugetHosted',
-    'repository.RepositorySettingsFormNugetProxy'
+    'repository.RepositorySettingsFormNugetProxy',
+    'repository.RepositorySettingsFormNugetGroup'
   ],
   refs: [
     { ref: 'feature', selector: 'nx-coreui-repository-feature' },

@@ -13,36 +13,30 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Repository reference store.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
-  extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-proxy',
-  requires: [
-    'NX.I18n'
-  ],
+Ext.define('NX.coreui.store.RepositoryReference', {
+  extend: 'Ext.data.Store',
+  model: 'NX.coreui.model.RepositoryReference',
 
-  defaults: {
-    allowBlank: false,
-    itemCls: 'required-field'
+  proxy: {
+    type: 'direct',
+
+    api: {
+      read: 'NX.direct.coreui_Repository.readReferences'
+    },
+
+    reader: {
+      type: 'json',
+      root: 'data',
+      idProperty: 'id',
+      successProperty: 'success'
+    }
   },
-  
-  initComponent: function() {
-    var me = this;
 
-    me.items = [
-      {
-        xtype: 'nx-url',
-        name: 'proxy.remoteUrl',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_PLACEHOLDER')
-      }
-    ];
-
-    me.callParent(arguments);
-  }
+  sortOnLoad: true,
+  sorters: { property: 'name', direction: 'ASC' }
 
 });

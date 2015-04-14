@@ -13,36 +13,28 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Repository "Settings" form.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
-  extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-proxy',
+Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenGroup', {
+  extend: 'NX.coreui.view.repository.RepositorySettingsForm',
+  alias: 'widget.nx-coreui-repository-settings-form-maven2-group',
   requires: [
+    'NX.Conditions',
     'NX.I18n'
   ],
 
-  defaults: {
-    allowBlank: false,
-    itemCls: 'required-field'
-  },
-  
   initComponent: function() {
     var me = this;
 
     me.items = [
-      {
-        xtype: 'nx-url',
-        name: 'proxy.remoteUrl',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_PLACEHOLDER')
-      }
+      { xtype: 'nx-coreui-repository-settings-facet-view'},
+      { xtype: 'nx-coreui-repository-settings-facet-storage'},
+      { xtype: 'nx-coreui-repository-settings-facet-maven2'},
+      { xtype: 'nx-coreui-repository-settings-facet-group', format: 'maven2' }
     ];
 
     me.callParent(arguments);
   }
-
 });

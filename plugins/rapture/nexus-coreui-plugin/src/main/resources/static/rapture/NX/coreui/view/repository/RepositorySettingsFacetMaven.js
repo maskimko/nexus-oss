@@ -21,11 +21,13 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
   extend: 'Ext.form.FieldContainer',
   alias: 'widget.nx-coreui-repository-settings-facet-maven2',
   requires: [
-    'NX.I18n',
+    'NX.I18n'
   ],
 
   defaults: {
-    xtype: 'textfield'
+    allowBlank: false,
+    queryMode: 'local',
+    itemCls: 'required-field'
   },
 
   initComponent: function() {
@@ -45,10 +47,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['SNAPSHOT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_SNAPSHOTS_ITEM')]
         ],
         value: 'RELEASE',
-        queryMode: 'local',
-        readOnly: true,
-        allowBlank: false,
-        itemCls: 'required-field'
+        readOnly: true
       },
       {
         xtype: 'combo',
@@ -62,10 +61,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['STRICT_IF_EXISTS', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_EXISTS_ITEM')],
           ['STRICT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
         ],
-        value: 'STRICT',
-        queryMode: 'local',
-        allowBlank: false,
-        itemCls: 'required-field'
+        value: 'STRICT'
       }
     ];
     me.listeners = {
@@ -75,7 +71,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           form.down('#versionPolicy').setReadOnly(false);  
         }
       }
-    }
+    };
 
     me.callParent(arguments);
   }

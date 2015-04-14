@@ -47,7 +47,23 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
         itemId: 'name',
         fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_NAME'),
         readOnly: true
-      }
+      },
+      {
+        xtype: 'textfield',
+        name: 'format',
+        itemId: 'format',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_FORMAT'),
+        allowBlank: true,
+        readOnly: true
+      },
+      {
+        xtype: 'textfield',
+        name: 'type',
+        itemId: 'type',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_TYPE'),
+        allowBlank: true,
+        readOnly: true
+      },
     ]);
 
     me.callParent(arguments);

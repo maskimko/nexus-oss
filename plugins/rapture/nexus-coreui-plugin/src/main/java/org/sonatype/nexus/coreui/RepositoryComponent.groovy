@@ -12,6 +12,7 @@
  */
 package org.sonatype.nexus.coreui
 
+import javax.annotation.Nullable
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -24,6 +25,7 @@ import org.sonatype.nexus.common.validation.Update
 import org.sonatype.nexus.common.validation.Validate
 import org.sonatype.nexus.extdirect.DirectComponent
 import org.sonatype.nexus.extdirect.DirectComponentSupport
+import org.sonatype.nexus.extdirect.model.StoreLoadParameters
 import org.sonatype.nexus.repository.MissingFacetException
 import org.sonatype.nexus.repository.Recipe
 import org.sonatype.nexus.repository.Repository
@@ -37,7 +39,9 @@ import org.sonatype.nexus.web.BaseUrlHolder
 import com.softwarementors.extjs.djn.config.annotations.DirectAction
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod
 import com.softwarementors.extjs.djn.config.annotations.DirectPollMethod
+import groovy.transform.PackageScope
 import org.apache.shiro.authz.annotation.RequiresAuthentication
+import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.hibernate.validator.constraints.NotEmpty
 
 /**
@@ -68,6 +72,22 @@ extends DirectComponentSupport
       new ReferenceXO(
           id: key,
           name: "${value.format} (${value.type})"
+      )
+    }
+  }
+
+  /**
+   * Retrieve a list of available repositories references.
+   */
+  @DirectMethod
+//  @RequiresPermissions('nexus:repositories:read')
+  List<RepositoryReferenceXO> readReferences(final @Nullable StoreLoadParameters parameters) {
+    return filter(parameters).collect { Repository repository ->
+      new RepositoryReferenceXO(
+          id: repository.name,
+          name: repository.name,
+          type: repository.type.toString(),
+          format: repository.format.toString()
       )
     }
   }
@@ -145,5 +165,18 @@ extends DirectComponentSupport
     }
     return statusXO
   }
-  
+
+  @PackageScope
+  List<Repository> filter(final @Nullable StoreLoadParameters parameters) {
+    def repositories = repositoryManager.browse()
+    if (parameters) {
+      String format = parameters.getFilter('format')
+      if (format) {
+        return repositories.findResults { Repository repository ->
+          repository.format == format
+        }
+      }
+    }
+    return repositories
+  }
 }

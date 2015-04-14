@@ -10,39 +10,20 @@
  * of Sonatype, Inc. Apache Maven is a trademark of the Apache Software Foundation. M2eclipse is a trademark of the
  * Eclipse Foundation. All other trademarks are the property of their respective owners.
  */
-/*global Ext, NX*/
+package org.sonatype.nexus.coreui
+
+import groovy.transform.ToString
+
 
 /**
- * TODO.
+ * Repository reference exchange object.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
-  extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-proxy',
-  requires: [
-    'NX.I18n'
-  ],
-
-  defaults: {
-    allowBlank: false,
-    itemCls: 'required-field'
-  },
-  
-  initComponent: function() {
-    var me = this;
-
-    me.items = [
-      {
-        xtype: 'nx-url',
-        name: 'proxy.remoteUrl',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_REMOTE_PLACEHOLDER')
-      }
-    ];
-
-    me.callParent(arguments);
-  }
-
-});
+@ToString(includePackage = false, includeNames = true)
+class RepositoryReferenceXO
+    extends ReferenceXO
+{
+  String type
+  String format
+}

@@ -24,6 +24,11 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
     'NX.I18n'
   ],
 
+  defaults: {
+    allowBlank: false,
+    itemCls: 'required-field'
+  },
+
   initComponent: function() {
     var me = this;
 
@@ -41,9 +46,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
           ['DENY', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_RO_ITEM')]
         ],
         value: 'DENY',
-        queryMode: 'local',
-        allowBlank: false,
-        itemCls: 'required-field'
+        queryMode: 'local'
       }
     ];
 
