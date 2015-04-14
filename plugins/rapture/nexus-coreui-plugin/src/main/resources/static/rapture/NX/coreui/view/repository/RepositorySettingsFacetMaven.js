@@ -45,7 +45,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['SNAPSHOT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_SNAPSHOTS_ITEM')]
         ],
         queryMode: 'local',
-        readOnly: true
+        readOnly: true,
+        allowBlank: false,
+        itemCls: 'required-field'
       },
       {
         xtype: 'combo',
@@ -59,9 +61,19 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
           ['STRICT_IF_EXISTS', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_EXISTS_ITEM')],
           ['STRICT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
         ],
-        queryMode: 'local'
+        queryMode: 'local',
+        allowBlank: false,
+        itemCls: 'required-field'
       }
     ];
+    me.listeners = {
+      beforerender: function(component) {
+        var form = component.up('form');
+        if(!Ext.isDefined(form.getForm().getRecord())) {
+          form.down('#versionPolicy').setReadOnly(false);  
+        }
+      }
+    }
 
     me.callParent(arguments);
   }

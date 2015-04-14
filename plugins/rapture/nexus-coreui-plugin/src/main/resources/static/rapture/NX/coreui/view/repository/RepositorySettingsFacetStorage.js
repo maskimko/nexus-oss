@@ -44,7 +44,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
           ['ALLOW_ONCE', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_DISABLE_ITEM')],
           ['DENY', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_RO_ITEM')]
         ],
-        queryMode: 'local'
+        queryMode: 'local',
+        allowBlank: false,
+        itemCls: 'required-field'
       }
     ];
 
