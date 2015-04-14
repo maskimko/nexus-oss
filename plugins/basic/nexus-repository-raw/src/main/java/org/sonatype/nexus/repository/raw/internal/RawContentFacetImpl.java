@@ -164,7 +164,7 @@ public class RawContentFacetImpl
       log.trace("Mime support implies content type {}", contentType);
 
       if (contentType == null && config.strictContentTypeValidation) {
-        throw new InvalidContentException(String.format("Content type could not be determined."));
+        throw new InvalidContentException("Content type could not be determined.");
       }
     }
     else {
