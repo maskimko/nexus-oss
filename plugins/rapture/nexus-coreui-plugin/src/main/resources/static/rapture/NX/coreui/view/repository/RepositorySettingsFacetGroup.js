@@ -60,6 +60,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetGroup', {
           ]);
           var memberNames = record.get('attributes').group.memberNames;
           form.down('#groupMemberNames').setValue(memberNames);
+          form.down('#groupMemberNames').resetOriginalValue();   //clears isDirty state after setting the value
         }
       }
     });
@@ -68,11 +69,11 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetGroup', {
         xtype: 'nx-itemselector',
         name: 'group.memberNames',
         itemId: 'groupMemberNames',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_HELP'),
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_HELP'),
         buttons: ['up', 'add', 'remove', 'down'],
-        fromTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_FROM'),
-        toTitle: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_MEMBERS_TO'),
+        fromTitle: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_FROM'),
+        toTitle: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_MEMBERS_TO'),
         store: me.repositoryStore,
         valueField: 'id',
         displayField: 'name'

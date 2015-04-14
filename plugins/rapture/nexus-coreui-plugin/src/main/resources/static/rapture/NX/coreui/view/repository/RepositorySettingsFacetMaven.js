@@ -38,13 +38,13 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
         xtype: 'combo',
         name: 'maven.versionPolicy',
         itemId: 'versionPolicy',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY'),
-        helpText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_HELP'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_PLACEHOLDER'),
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY_HELP'),
+        emptyText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY_PLACEHOLDER'),
         editable: false,
         store: [
-          ['RELEASE', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_RELEASE_ITEM')],
-          ['SNAPSHOT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_POLICY_SNAPSHOTS_ITEM')]
+          ['RELEASE', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY_RELEASE_ITEM')],
+          ['SNAPSHOT', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_POLICY_SNAPSHOTS_ITEM')]
         ],
         value: 'RELEASE',
         readOnly: true
@@ -52,14 +52,14 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
       {
         xtype: 'combo',
         name: 'maven.checksumPolicy',
-        fieldLabel: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM'),
-        emptyText: NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_PLACEHOLDER'),
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM'),
+        emptyText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_PLACEHOLDER'),
         editable: false,
         store: [
-          ['IGNORE', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_IGNORE_ITEM')],
-          ['WARN', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_WARN_ITEM')],
-          ['STRICT_IF_EXISTS', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_EXISTS_ITEM')],
-          ['STRICT', NX.I18n.get('LEGACY_ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
+          ['IGNORE', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_IGNORE_ITEM')],
+          ['WARN', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_WARN_ITEM')],
+          ['STRICT_IF_EXISTS', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_EXISTS_ITEM')],
+          ['STRICT', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
         ],
         value: 'STRICT'
       }
