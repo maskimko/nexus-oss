@@ -138,13 +138,13 @@ Ext.define('NX.coreui.controller.Repositories', {
         settingsForm = settingsPanel.down('nx-settingsform'),
         formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.get('recipe'));
 
+    settingsPanel.removeAllSettingsForms();
     if (!formCls) {
       me.logWarn('Could not find settings form for: ' + model.getId());
     }
     else {
       if (Ext.isDefined(model)) {
         if (!settingsForm || formCls.xtype !== settingsForm.xtype) {
-          settingsPanel.removeAllSettingsForms();
           settingsPanel.addSettingsForm({ xtype: formCls.xtype, recipe: model });
         }
         settingsPanel.loadRecord(model);
