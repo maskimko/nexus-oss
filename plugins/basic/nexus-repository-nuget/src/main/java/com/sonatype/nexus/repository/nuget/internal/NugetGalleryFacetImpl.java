@@ -122,7 +122,7 @@ public class NugetGalleryFacetImpl
   @Override
   @Guarded(by = STARTED)
   public int count(final String operation, final Map<String, String> query) {
-    log.debug("Count: " + query);
+    log.debug("Count: {}", query);
 
     return count(operation, query, getRepositories());
   }
@@ -154,7 +154,7 @@ public class NugetGalleryFacetImpl
   @Override
   @Guarded(by = STARTED)
   public String feed(final String base, final String operation, final Map<String, String> query) {
-    log.debug("Select: " + query);
+    log.debug("Select: {}", query);
     setFeedQueryDefaults(query);
 
     final List<Repository> repositories = getRepositories();
