@@ -136,14 +136,19 @@ Ext.define('NX.coreui.controller.Repositories', {
     var me = this,
         settingsPanel = me.getSettings(),
         settingsForm = settingsPanel.down('nx-settingsform'),
-        settingsFormClass = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.get('recipe'));
+        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.get('recipe'));
 
-    if (Ext.isDefined(model)) {
-      if (!settingsForm || settingsFormClass.xtype !== settingsForm.xtype) {
-        settingsPanel.removeAllSettingsForms();
-        settingsPanel.addSettingsForm({ xtype: settingsFormClass.xtype, recipe: model });
+    if (!formCls) {
+      me.logWarn('Could not find settings form for: ' + model.getId());
+    }
+    else {
+      if (Ext.isDefined(model)) {
+        if (!settingsForm || formCls.xtype !== settingsForm.xtype) {
+          settingsPanel.removeAllSettingsForms();
+          settingsPanel.addSettingsForm({ xtype: formCls.xtype, recipe: model });
+        }
+        settingsPanel.loadRecord(model);
       }
-      settingsPanel.loadRecord(model);
     }
   },
 
@@ -179,16 +184,16 @@ Ext.define('NX.coreui.controller.Repositories', {
   showAddRepositoryPanel: function(list, td, cellIndex, model) {
     var me = this,
         feature = me.getFeature(),
-        cmpClass = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-add-' + model.getId());
+        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.getId());
 
-    //if (cmpClass) {
+    if (!formCls) {
+      me.logWarn('Could not find settings form for: ' + model.getId());
+    }
+    else {
       // Show the second panel in the create wizard, and set the breadcrumb
       feature.setItemName(2, NX.I18n.format('ADMIN_REPOSITORIES_CREATE_TITLE', model.get('name')));
-      me.loadCreateWizard(2, true, { xtype:'nx-coreui-repository-add',  recipe: model });
-    //}
-    //else {
-    //  me.logWarn('Could not find component for: ' + model.getId());
-    //}
+      me.loadCreateWizard(2, true, { xtype: 'nx-coreui-repository-add', recipe: model });
+    }
   },
 
   /**
