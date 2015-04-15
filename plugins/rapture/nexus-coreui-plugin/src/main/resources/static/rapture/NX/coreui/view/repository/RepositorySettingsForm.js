@@ -68,6 +68,7 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsForm', {
 
     me.callParent(arguments);
 
+    //map repository attributes raw map structure to/from a flattened representation
     Ext.override(me.getForm(), {
       getValues: function() {
         var processed = { attributes: {} },

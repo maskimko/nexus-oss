@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Configuration for repository storage policies.
  *
  * @since 3.0
  */

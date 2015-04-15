@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Configuration specific to Maven repositories.
  *
  * @since 3.0
  */

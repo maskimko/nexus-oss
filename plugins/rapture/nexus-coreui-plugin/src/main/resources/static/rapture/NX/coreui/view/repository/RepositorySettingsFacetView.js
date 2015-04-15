@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Online status of the repository.
  *
  * @since 3.0
  */

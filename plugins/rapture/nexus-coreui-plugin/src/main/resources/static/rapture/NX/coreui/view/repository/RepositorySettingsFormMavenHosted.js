@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form.
+ * Repository "Settings" form for a Maven Hosted repository.
  *
  * @since 3.0
  */

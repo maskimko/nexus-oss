@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * TODO.
+ * Configuration specific to proxy repositories.
  *
  * @since 3.0
  */
