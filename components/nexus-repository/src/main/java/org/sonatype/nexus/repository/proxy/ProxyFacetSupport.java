@@ -61,7 +61,6 @@ public abstract class ProxyFacetSupport
   @VisibleForTesting
   static class Config
   {
-    // TODO: Normalize URI ends with "/"?
     @NotNull
     public URI remoteUrl;
 
@@ -91,6 +90,12 @@ public abstract class ProxyFacetSupport
   @Override
   protected void doConfigure(final Configuration configuration) throws Exception {
     config = facet(ConfigurationFacet.class).readSection(configuration, CONFIG_KEY, Config.class);
+
+    // normalize URL path to contain trailing slash
+    if (!config.remoteUrl.getPath().endsWith("/")) {
+      config.remoteUrl = config.remoteUrl.resolve(config.remoteUrl.getPath() + "/");
+    }
+
     log.debug("Config: {}", config);
   }
 
