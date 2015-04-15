@@ -15,6 +15,7 @@ package org.sonatype.nexus.repository.httpclient;
 import com.google.common.collect.Lists;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.NTCredentials;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import static org.apache.http.client.config.AuthSchemes.BASIC;
 import static org.apache.http.client.config.AuthSchemes.DIGEST;
@@ -30,8 +31,10 @@ public class NtlmAuthenticationConfig
 {
   public static final String TYPE = "ntlm";
 
+  @NotEmpty
   private String username;
 
+  @NotEmpty
   private String password;
 
   private String ntlmHost;

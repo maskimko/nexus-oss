@@ -12,6 +12,8 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -21,11 +23,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 public class HttpClientConfig
 {
+  @Valid
   private ConnectionConfig connection;
 
+  @Valid
   @JsonDeserialize(using=AuthenticationConfigDeserializer.class)
   private AuthenticationConfig authentication;
 
+  @Valid
   private ProxyConfig proxy;
 
   public ConnectionConfig getConnection() {

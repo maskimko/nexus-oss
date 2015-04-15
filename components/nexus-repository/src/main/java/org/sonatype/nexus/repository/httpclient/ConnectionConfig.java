@@ -12,6 +12,9 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 /**
  * HTTP client connection configuration.
  *
@@ -23,8 +26,12 @@ public class ConnectionConfig
 
   private String urlParameters;
 
+  @Min(0L)
+  @Max(3600L)
   private Integer timeout;
 
+  @Min(0L)
+  @Max(10L)
   private Integer retries;
 
   private Boolean blocked;

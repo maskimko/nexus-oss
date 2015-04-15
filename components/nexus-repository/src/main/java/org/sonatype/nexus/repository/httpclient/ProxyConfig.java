@@ -12,6 +12,8 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.validation.Valid;
+
 /**
  * HTTP client proxy configuration.
  *
@@ -19,8 +21,10 @@ package org.sonatype.nexus.repository.httpclient;
  */
 public class ProxyConfig
 {
+  @Valid
   private HttpProxyConfig http;
 
+  @Valid
   private HttpProxyConfig https;
 
   private String[] nonProxyHosts;

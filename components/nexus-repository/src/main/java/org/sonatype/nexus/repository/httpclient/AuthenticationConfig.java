@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.http.auth.Credentials;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,8 +27,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class AuthenticationConfig
 {
+  @NotEmpty
   private final String type;
 
+  @NotEmpty
   private final List<String> preferredAuthSchemes;
 
   public AuthenticationConfig(final String type, final List<String> preferredAuthSchemes) {

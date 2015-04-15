@@ -12,6 +12,13 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * HTTP client HTTP proxy configuration.
  *
@@ -19,10 +26,15 @@ package org.sonatype.nexus.repository.httpclient;
  */
 public class HttpProxyConfig
 {
+  @NotEmpty
   private String hostname;
 
+  @NotNull
+  @Min(1L)
+  @Max(65535L)
   private Integer port;
 
+  @Valid
   private AuthenticationConfig authentication;
 
   public String getHostname() {
