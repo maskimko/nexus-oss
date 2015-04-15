@@ -68,6 +68,13 @@ public class RawContentFacetImpl
   static class Config
   {
     public boolean strictContentTypeValidation = false;
+
+    @Override
+    public String toString() {
+      return getClass().getSimpleName() + "{" +
+          "strictContentTypeValidation=" + strictContentTypeValidation +
+          '}';
+    }
   }
 
   private Config config;

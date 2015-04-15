@@ -69,6 +69,14 @@ public abstract class ProxyFacetSupport
     // TODO: Convert string with Goodies Time?
     @NotNull
     public int artifactMaxAge; // minutes
+
+    @Override
+    public String toString() {
+      return getClass().getSimpleName() + "{" +
+          "remoteUrl=" + remoteUrl +
+          ", artifactMaxAge=" + artifactMaxAge +
+          '}';
+    }
   }
 
   private Config config;

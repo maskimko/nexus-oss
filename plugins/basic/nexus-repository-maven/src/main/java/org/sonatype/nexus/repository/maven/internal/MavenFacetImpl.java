@@ -124,6 +124,15 @@ public class MavenFacetImpl
 
     @NotNull
     public ChecksumPolicy checksumPolicy;
+
+    @Override
+    public String toString() {
+      return getClass().getSimpleName() + "{" +
+          "strictContentTypeValidation=" + strictContentTypeValidation +
+          ", versionPolicy=" + versionPolicy +
+          ", checksumPolicy=" + checksumPolicy +
+          '}';
+    }
   }
 
   private Config config;

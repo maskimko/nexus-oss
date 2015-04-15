@@ -58,6 +58,14 @@ public class NegativeCacheFacetImpl
      * Time-to-live seconds.
      */
     public int timeToLive = Time.minutes(1440).toSecondsI();
+
+    @Override
+    public String toString() {
+      return getClass().getSimpleName() + "{" +
+          "enabled=" + enabled +
+          ", timeToLive=" + timeToLive +
+          '}';
+    }
   }
 
   private Config config;

@@ -79,6 +79,14 @@ public class NugetProxyGalleryFacet
 
     // TODO: Use Goodies Time conersion?
     public int queryCacheItemMaxAgeSeconds = 3600;
+
+    @Override
+    public String toString() {
+      return getClass().getSimpleName() + "{" +
+          "queryCacheSize=" + queryCacheSize +
+          ", queryCacheItemMaxAgeSeconds=" + queryCacheItemMaxAgeSeconds +
+          '}';
+    }
   }
 
   private Config config;
