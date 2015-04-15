@@ -13,13 +13,13 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form for a NuGet Proxy repository.
+ * Repository "Settings" form for a NuGet Hosted repository.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFormNugetProxy', {
+Ext.define('NX.coreui.view.repository.recipe.NugetHosted', {
   extend: 'NX.coreui.view.repository.RepositorySettingsForm',
-  alias: 'widget.nx-coreui-repository-settings-form-nuget-proxy',
+  alias: 'widget.nx-coreui-repository-nuget-hosted',
   requires: [
     'NX.Conditions',
     'NX.I18n'
@@ -29,10 +29,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFormNugetProxy', {
     var me = this;
 
     me.items = [
-      { xtype: 'nx-coreui-repository-view-facet'},
-      { xtype: 'nx-coreui-repository-proxy-facet'},
-      { xtype: 'nx-coreui-repository-storage-facet'},
-      { xtype: 'nx-coreui-repository-http-facet'}
+      { xtype: 'nx-coreui-repository-view-facet'}
+        //TODO - KR is this setting required for nuget hosted repos, as it has not yet been a regularly configured option - is it respected?
+      //,{ xtype: 'nx-coreui-repository-storage-facet'}
     ];
 
     me.callParent(arguments);

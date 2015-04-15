@@ -49,12 +49,12 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.facet.GroupFacet',
     'repository.facet.HttpFacet',
     'repository.RepositorySettingsForm',
-    'repository.RepositorySettingsFormMavenHosted',
-    'repository.RepositorySettingsFormMavenProxy',
-    'repository.RepositorySettingsFormMavenGroup',
-    'repository.RepositorySettingsFormNugetHosted',
-    'repository.RepositorySettingsFormNugetProxy',
-    'repository.RepositorySettingsFormNugetGroup'
+    'repository.recipe.Maven2Hosted',
+    'repository.recipe.Maven2Proxy',
+    'repository.recipe.Maven2Group',
+    'repository.recipe.NugetHosted',
+    'repository.recipe.NugetProxy',
+    'repository.recipe.NugetGroup'
   ],
   refs: [
     { ref: 'feature', selector: 'nx-coreui-repository-feature' },
@@ -141,15 +141,15 @@ Ext.define('NX.coreui.controller.Repositories', {
     var me = this,
         settingsPanel = me.getSettings(),
         settingsForm = settingsPanel.down('nx-settingsform'),
-        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.get('recipe'));
+        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-' + model.get('recipe'));
 
-    settingsPanel.removeAllSettingsForms();
     if (!formCls) {
       me.logWarn('Could not find settings form for: ' + model.getId());
     }
     else {
       if (Ext.isDefined(model)) {
         if (!settingsForm || formCls.xtype !== settingsForm.xtype) {
+          settingsPanel.removeAllSettingsForms();
           settingsPanel.addSettingsForm({ xtype: formCls.xtype, recipe: model });
         }
         settingsPanel.loadRecord(model);
@@ -189,7 +189,7 @@ Ext.define('NX.coreui.controller.Repositories', {
   showAddRepositoryPanel: function(list, td, cellIndex, model) {
     var me = this,
         feature = me.getFeature(),
-        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-settings-form-' + model.getId());
+        formCls = Ext.ClassManager.getByAlias('widget.nx-coreui-repository-' + model.getId());
 
     if (!formCls) {
       me.logWarn('Could not find settings form for: ' + model.getId());

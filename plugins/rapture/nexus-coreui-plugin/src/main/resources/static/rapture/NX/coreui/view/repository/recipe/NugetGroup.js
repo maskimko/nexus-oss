@@ -13,13 +13,13 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form for a Maven Proxy repository
+ * Repository "Settings" form for a NuGet Group repository.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenProxy', {
+Ext.define('NX.coreui.view.repository.recipe.NugetGroup', {
   extend: 'NX.coreui.view.repository.RepositorySettingsForm',
-  alias: 'widget.nx-coreui-repository-settings-form-maven2-proxy',
+  alias: 'widget.nx-coreui-repository-nuget-group',
   requires: [
     'NX.Conditions',
     'NX.I18n'
@@ -30,10 +30,8 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenProxy', {
 
     me.items = [
       { xtype: 'nx-coreui-repository-view-facet'},
-      { xtype: 'nx-coreui-repository-proxy-facet'},
       { xtype: 'nx-coreui-repository-storage-facet'},
-      { xtype: 'nx-coreui-repository-maven2-facet'},
-      { xtype: 'nx-coreui-repository-http-facet'}
+      { xtype: 'nx-coreui-repository-group-facet', format: 'nuget' }
     ];
 
     me.callParent(arguments);

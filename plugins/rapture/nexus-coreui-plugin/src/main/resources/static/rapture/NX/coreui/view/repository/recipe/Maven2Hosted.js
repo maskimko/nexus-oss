@@ -17,9 +17,9 @@
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenHosted', {
+Ext.define('NX.coreui.view.repository.recipe.Maven2Hosted', {
   extend: 'NX.coreui.view.repository.RepositorySettingsForm',
-  alias: 'widget.nx-coreui-repository-settings-form-maven2-hosted',
+  alias: 'widget.nx-coreui-repository-maven2-hosted',
   requires: [
     'NX.Conditions',
     'NX.I18n'

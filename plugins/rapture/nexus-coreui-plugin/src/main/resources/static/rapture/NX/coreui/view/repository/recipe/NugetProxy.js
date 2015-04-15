@@ -13,13 +13,13 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form for a NuGet Group repository.
+ * Repository "Settings" form for a NuGet Proxy repository.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFormNugetGroup', {
+Ext.define('NX.coreui.view.repository.recipe.NugetProxy', {
   extend: 'NX.coreui.view.repository.RepositorySettingsForm',
-  alias: 'widget.nx-coreui-repository-settings-form-nuget-group',
+  alias: 'widget.nx-coreui-repository-nuget-proxy',
   requires: [
     'NX.Conditions',
     'NX.I18n'
@@ -30,8 +30,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFormNugetGroup', {
 
     me.items = [
       { xtype: 'nx-coreui-repository-view-facet'},
+      { xtype: 'nx-coreui-repository-proxy-facet'},
       { xtype: 'nx-coreui-repository-storage-facet'},
-      { xtype: 'nx-coreui-repository-group-facet', format: 'nuget' }
+      { xtype: 'nx-coreui-repository-http-facet'}
     ];
 
     me.callParent(arguments);
