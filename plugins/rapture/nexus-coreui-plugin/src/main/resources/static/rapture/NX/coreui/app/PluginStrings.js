@@ -260,6 +260,9 @@ Ext.define('NX.coreui.app.PluginStrings', {
     ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT: 'Connection timeout',
     ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT_HELP: 'How long (in ms) to wait before timing out connections',
     ADMIN_REPOSITORIES_SETTINGS_CONTENT_TYPE_VALIDATION: 'Strict Content Type Validation',
+    ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_ENABLED: 'Not found cache enabled',
+    ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL: 'Not found cache TTL',
+    ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL_HELP: 'How long to cache the fact that a file was not found in the repository (in minutes)',
 
     // Admin -> Repository -> Blobstores
     ADMIN_BLOBSTORES_TITLE: 'Blobstores',

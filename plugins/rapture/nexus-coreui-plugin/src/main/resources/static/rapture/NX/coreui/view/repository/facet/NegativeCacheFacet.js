@@ -13,29 +13,42 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form for a NuGet Proxy repository.
+ * Configuration specific to Http connections for repositories.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.recipe.NugetProxy', {
-  extend: 'NX.coreui.view.repository.RepositorySettingsForm',
-  alias: 'widget.nx-coreui-repository-nuget-proxy',
+Ext.define('NX.coreui.view.repository.facet.NegativeCacheFacet', {
+  extend: 'Ext.form.FieldContainer',
+  alias: 'widget.nx-coreui-repository-negativecache-facet',
   requires: [
-    'NX.Conditions',
     'NX.I18n'
   ],
+
+  defaults: {
+    itemCls: 'required-field'
+  },
 
   initComponent: function() {
     var me = this;
 
     me.items = [
-      { xtype: 'nx-coreui-repository-view-facet'},
-      { xtype: 'nx-coreui-repository-proxy-facet'},
-      { xtype: 'nx-coreui-repository-storage-facet'},
-      { xtype: 'nx-coreui-repository-http-facet'} ,
-      { xtype: 'nx-coreui-repository-negativecache-facet'}
+      {
+        xtype: 'checkbox',
+        name: 'negativeCache.enabled',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_ENABLED'),
+        value: true
+      },
+      {
+        xtype: 'numberfield',
+        name: 'negativeCache.timeToLive',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL_HELP'),
+        minValue: -1,
+        value: 1440
+      }
     ];
 
     me.callParent(arguments);
   }
+
 });

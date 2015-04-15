@@ -49,6 +49,7 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.facet.GroupFacet',
     'repository.facet.HttpFacet',
     'repository.facet.RawContentFacet',
+    'repository.facet.NegativeCacheFacet',
     'repository.RepositorySettingsForm',
     'repository.recipe.Maven2Hosted',
     'repository.recipe.Maven2Proxy',
