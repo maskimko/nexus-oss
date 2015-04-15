@@ -29,9 +29,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFormMavenHosted', {
     var me = this;
 
     me.items = [
-      { xtype: 'nx-coreui-repository-settings-facet-view'},
-      { xtype: 'nx-coreui-repository-settings-facet-storage'},
-      { xtype: 'nx-coreui-repository-settings-facet-maven2'}
+      { xtype: 'nx-coreui-repository-view-facet'},
+      { xtype: 'nx-coreui-repository-storage-facet'},
+      { xtype: 'nx-coreui-repository-maven2-facet'}
     ];
 
     me.callParent(arguments);

@@ -252,6 +252,12 @@ Ext.define('NX.coreui.app.PluginStrings', {
     ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM: 'Strict',
     ADMIN_REPOSITORIES_SETTINGS_FORMAT: 'Format',
     ADMIN_REPOSITORIES_SETTINGS_TYPE: 'Type',
+    ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE: 'Maximum artifact age',
+    ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE_HELP: 'How long (in minutes) to cache artifacts before rechecking the remote repository. Release repositories should use -1.',
+    ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES: 'Connection retries',
+    ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES_HELP: 'How many times to try to connect before giving up',
+    ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT: 'Connection timeout',
+    ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT_HELP: 'How long (in ms) to wait before timing out connections',
 
     // Admin -> Repository -> Blobstores
     ADMIN_BLOBSTORES_TITLE: 'Blobstores',

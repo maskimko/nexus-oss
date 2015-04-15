@@ -13,19 +13,19 @@
 /*global Ext, NX*/
 
 /**
- * Online status of the repository.
+ * Configuration specific to Http connections for repositories.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetView', {
+Ext.define('NX.coreui.view.repository.facet.HttpFacet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-view',
+  alias: 'widget.nx-coreui-repository-http-facet',
   requires: [
-    'NX.I18n',
+    'NX.I18n'
   ],
 
   defaults: {
-    xtype: 'textfield'
+    itemCls: 'required-field'
   },
 
   initComponent: function() {
@@ -33,11 +33,21 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetView', {
 
     me.items = [
       {
-        xtype: 'checkbox',
-        name: 'view.online',
-        fieldLabel: 'Online',
-        value: true
+        xtype: 'numberfield',
+        name: 'httpclient.connection.retries',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES_HELP'),
+        minValue: 0,
+        value: 0
       },
+      {
+        xtype: 'numberfield',
+        name: 'httpclient.connection.timeout',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT_HELP'),
+        minValue: 0,
+        value: 0
+      }
     ];
 
     me.callParent(arguments);

@@ -29,9 +29,9 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFormNugetGroup', {
     var me = this;
 
     me.items = [
-      { xtype: 'nx-coreui-repository-settings-facet-view'},
-      { xtype: 'nx-coreui-repository-settings-facet-storage'},
-      { xtype: 'nx-coreui-repository-settings-facet-group', format: 'nuget' }
+      { xtype: 'nx-coreui-repository-view-facet'},
+      { xtype: 'nx-coreui-repository-storage-facet'},
+      { xtype: 'nx-coreui-repository-group-facet', format: 'nuget' }
     ];
 
     me.callParent(arguments);

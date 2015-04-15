@@ -17,9 +17,9 @@
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetMaven', {
+Ext.define('NX.coreui.view.repository.facet.Maven2Facet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-maven2',
+  alias: 'widget.nx-coreui-repository-maven2-facet',
   requires: [
     'NX.I18n'
   ],

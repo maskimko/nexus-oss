@@ -17,9 +17,9 @@
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
+Ext.define('NX.coreui.view.repository.facet.ProxyFacet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-proxy',
+  alias: 'widget.nx-coreui-repository-proxy-facet',
   requires: [
     'NX.I18n'
   ],
@@ -39,6 +39,14 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetProxy', {
         fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE'),
         helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE_HELP'),
         emptyText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_REMOTE_PLACEHOLDER')
+      },
+      {
+        xtype: 'numberfield',
+        name: 'proxy.artifactMaxAge',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_ARTIFACT_AGE_HELP'),
+        minValue: -1,
+        value: 3600
       }
     ];
 

@@ -17,9 +17,9 @@
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetGroup', {
+Ext.define('NX.coreui.view.repository.facet.GroupFacet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-group',
+  alias: 'widget.nx-coreui-repository-group-facet',
   requires: [
     'NX.I18n',
     'NX.coreui.store.RepositoryReference'

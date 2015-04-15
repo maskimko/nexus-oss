@@ -13,20 +13,19 @@
 /*global Ext, NX*/
 
 /**
- * Configuration for repository storage policies.
+ * Online status of the repository.
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
+Ext.define('NX.coreui.view.repository.facet.ViewFacet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-settings-facet-storage',
+  alias: 'widget.nx-coreui-repository-view-facet',
   requires: [
-    'NX.I18n'
+    'NX.I18n',
   ],
 
   defaults: {
-    allowBlank: false,
-    itemCls: 'required-field'
+    xtype: 'textfield'
   },
 
   initComponent: function() {
@@ -34,20 +33,11 @@ Ext.define('NX.coreui.view.repository.RepositorySettingsFacetStorage', {
 
     me.items = [
       {
-        xtype: 'combo',
-        name: 'storage.writePolicy',
-        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT'),
-        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_HELP'),
-        emptyText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_PLACEHOLDER'),
-        editable: false,
-        store: [
-          ['ALLOW', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_ALLOW_ITEM')],
-          ['ALLOW_ONCE', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_DISABLE_ITEM')],
-          ['DENY', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_DEPLOYMENT_RO_ITEM')]
-        ],
-        value: 'DENY',
-        queryMode: 'local'
-      }
+        xtype: 'checkbox',
+        name: 'view.online',
+        fieldLabel: 'Online',
+        value: true
+      },
     ];
 
     me.callParent(arguments);
