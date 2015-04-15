@@ -12,6 +12,8 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.NTCredentials;
@@ -37,8 +39,10 @@ public class NtlmAuthenticationConfig
   @NotEmpty
   private String password;
 
+  @Nullable
   private String ntlmHost;
 
+  @Nullable
   private String ntlmDomain;
 
   public NtlmAuthenticationConfig() {
@@ -61,19 +65,21 @@ public class NtlmAuthenticationConfig
     this.password = password;
   }
 
+  @Nullable
   public String getNtlmHost() {
     return ntlmHost;
   }
 
-  public void setNtlmHost(final String ntlmHost) {
+  public void setNtlmHost(final @Nullable String ntlmHost) {
     this.ntlmHost = ntlmHost;
   }
 
+  @Nullable
   public String getNtlmDomain() {
     return ntlmDomain;
   }
 
-  public void setNtlmDomain(final String ntlmDomain) {
+  public void setNtlmDomain(final @Nullable String ntlmDomain) {
     this.ntlmDomain = ntlmDomain;
   }
 
