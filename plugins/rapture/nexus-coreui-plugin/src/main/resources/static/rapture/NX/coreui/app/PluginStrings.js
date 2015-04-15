@@ -259,6 +259,7 @@ Ext.define('NX.coreui.app.PluginStrings', {
     ADMIN_REPOSITORIES_SETTINGS_CONNECTION_RETRIES_HELP: 'How many times to try to connect before giving up',
     ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT: 'Connection timeout',
     ADMIN_REPOSITORIES_SETTINGS_CONNECTION_TIMEOUT_HELP: 'How long (in ms) to wait before timing out connections',
+    ADMIN_REPOSITORIES_SETTINGS_CONTENT_TYPE_VALIDATION: 'Strict Content Type Validation',
 
     // Admin -> Repository -> Blobstores
     ADMIN_BLOBSTORES_TITLE: 'Blobstores',

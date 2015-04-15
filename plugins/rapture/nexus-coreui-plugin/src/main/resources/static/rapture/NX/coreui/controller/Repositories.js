@@ -48,13 +48,17 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.facet.ViewFacet',
     'repository.facet.GroupFacet',
     'repository.facet.HttpFacet',
+    'repository.facet.ContentValidationFacet',
     'repository.RepositorySettingsForm',
     'repository.recipe.Maven2Hosted',
     'repository.recipe.Maven2Proxy',
     'repository.recipe.Maven2Group',
     'repository.recipe.NugetHosted',
     'repository.recipe.NugetProxy',
-    'repository.recipe.NugetGroup'
+    'repository.recipe.NugetGroup',
+    'repository.recipe.RawHosted',
+    'repository.recipe.RawProxy',
+    'repository.recipe.RawGroup'
   ],
   refs: [
     { ref: 'feature', selector: 'nx-coreui-repository-feature' },

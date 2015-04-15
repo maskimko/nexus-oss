@@ -62,6 +62,12 @@ Ext.define('NX.coreui.view.repository.facet.Maven2Facet', {
           ['STRICT', NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CHECKSUM_STRICT_ITEM')]
         ],
         value: 'STRICT'
+      },
+      {
+        xtype: 'checkbox',
+        name: 'maven.strictContentTypeValidation',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_CONTENT_TYPE_VALIDATION'),
+        value: true
       }
     ];
     me.listeners = {
