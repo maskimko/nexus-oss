@@ -101,6 +101,7 @@ public class ConfigurationFacetImpl
    */
   private static class SectionWrapper
   {
+    @SuppressWarnings("unused")
     @Valid
     private Map<String,Object> attributes;
 
