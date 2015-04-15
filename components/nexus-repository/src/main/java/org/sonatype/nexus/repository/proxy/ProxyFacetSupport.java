@@ -42,7 +42,6 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.DateUtils;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -63,10 +62,9 @@ public abstract class ProxyFacetSupport
   static class Config
   {
     // TODO: Normalize URI ends with "/"?
-    @NotEmpty
+    @NotNull
     public URI remoteUrl;
 
-    // TODO: Convert string with Goodies Time?
     @NotNull
     public int artifactMaxAge; // minutes
 

@@ -12,6 +12,8 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * HTTP client configuration.
  *
@@ -21,6 +23,7 @@ public class HttpClientConfig
 {
   private ConnectionConfig connectionConfig;
 
+  @JsonDeserialize(using=AuthenticationConfigDeserializer.class)
   private AuthenticationConfig authenticationConfig;
 
   private ProxyConfig proxyConfig;
