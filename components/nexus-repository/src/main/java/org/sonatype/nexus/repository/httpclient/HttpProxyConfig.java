@@ -23,7 +23,7 @@ public class HttpProxyConfig
 
   private Integer port;
 
-  private AuthenticationConfig authenticationConfig;
+  private AuthenticationConfig authentication;
 
   public String getHostname() {
     return hostname;
@@ -41,11 +41,11 @@ public class HttpProxyConfig
     this.port = port;
   }
 
-  public AuthenticationConfig getAuthenticationConfig() {
-    return authenticationConfig;
+  public AuthenticationConfig getAuthentication() {
+    return authentication;
   }
 
-  public void setAuthenticationConfig(final AuthenticationConfig authenticationConfig) {
-    this.authenticationConfig = authenticationConfig;
+  public void setAuthentication(final AuthenticationConfig authentication) {
+    this.authentication = authentication;
   }
 }

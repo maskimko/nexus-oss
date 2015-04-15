@@ -19,26 +19,26 @@ package org.sonatype.nexus.repository.httpclient;
  */
 public class ProxyConfig
 {
-  private HttpProxyConfig httpProxyConfig;
+  private HttpProxyConfig http;
 
-  private HttpProxyConfig httpsProxyConfig;
+  private HttpProxyConfig https;
 
   private String[] nonProxyHosts;
 
-  public HttpProxyConfig getHttpProxyConfig() {
-    return httpProxyConfig;
+  public HttpProxyConfig getHttp() {
+    return http;
   }
 
-  public void setHttpProxyConfig(final HttpProxyConfig httpProxyConfig) {
-    this.httpProxyConfig = httpProxyConfig;
+  public void setHttp(final HttpProxyConfig http) {
+    this.http = http;
   }
 
-  public HttpProxyConfig getHttpsProxyConfig() {
-    return httpsProxyConfig;
+  public HttpProxyConfig getHttps() {
+    return https;
   }
 
-  public void setHttpsProxyConfig(final HttpProxyConfig httpsProxyConfig) {
-    this.httpsProxyConfig = httpsProxyConfig;
+  public void setHttps(final HttpProxyConfig https) {
+    this.https = https;
   }
 
   public String[] getNonProxyHosts() {

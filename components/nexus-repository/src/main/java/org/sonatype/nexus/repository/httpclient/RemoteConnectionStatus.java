@@ -48,5 +48,4 @@ public class RemoteConnectionStatus
     }
     return sb.toString();
   }
-
 }
