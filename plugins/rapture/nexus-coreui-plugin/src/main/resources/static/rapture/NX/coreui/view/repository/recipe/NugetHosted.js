@@ -29,9 +29,8 @@ Ext.define('NX.coreui.view.repository.recipe.NugetHosted', {
     var me = this;
 
     me.items = [
-      { xtype: 'nx-coreui-repository-view-facet'}
-        //TODO - KR is this setting required for nuget hosted repos, as it has not yet been a regularly configured option - is it respected?
-      //,{ xtype: 'nx-coreui-repository-storage-facet'}
+      { xtype: 'nx-coreui-repository-view-facet'},
+      { xtype: 'nx-coreui-repository-storage-facet'}
     ];
 
     me.callParent(arguments);
