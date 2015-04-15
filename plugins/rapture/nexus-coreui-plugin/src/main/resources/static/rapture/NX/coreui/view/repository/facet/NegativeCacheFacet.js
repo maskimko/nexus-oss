@@ -28,6 +28,9 @@ Ext.define('NX.coreui.view.repository.facet.NegativeCacheFacet', {
     itemCls: 'required-field'
   },
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

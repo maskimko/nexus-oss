@@ -21,13 +21,12 @@ Ext.define('NX.coreui.view.repository.facet.ViewFacet', {
   extend: 'Ext.form.FieldContainer',
   alias: 'widget.nx-coreui-repository-view-facet',
   requires: [
-    'NX.I18n',
+    'NX.I18n'
   ],
 
-  defaults: {
-    xtype: 'textfield'
-  },
-
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

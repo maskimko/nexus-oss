@@ -22,7 +22,12 @@ Ext.define('NX.coreui.view.repository.recipe.NugetProxy', {
   alias: 'widget.nx-coreui-repository-nuget-proxy',
   requires: [
     'NX.Conditions',
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.view.repository.facet.ProxyFacet',
+    'NX.coreui.view.repository.facet.StorageFacet',
+    'NX.coreui.view.repository.facet.ViewFacet',
+    'NX.coreui.view.repository.facet.HttpFacet',
+    'NX.coreui.view.repository.facet.NegativeCacheFacet'
   ],
 
   initComponent: function() {

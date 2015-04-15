@@ -22,9 +22,15 @@ Ext.define('NX.coreui.view.repository.recipe.NugetGroup', {
   alias: 'widget.nx-coreui-repository-nuget-group',
   requires: [
     'NX.Conditions',
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.view.repository.facet.StorageFacet',
+    'NX.coreui.view.repository.facet.ViewFacet',
+    'NX.coreui.view.repository.facet.GroupFacet'
   ],
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

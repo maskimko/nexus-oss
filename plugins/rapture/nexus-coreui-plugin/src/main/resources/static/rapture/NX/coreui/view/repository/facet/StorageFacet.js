@@ -29,6 +29,9 @@ Ext.define('NX.coreui.view.repository.facet.StorageFacet', {
     itemCls: 'required-field'
   },
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

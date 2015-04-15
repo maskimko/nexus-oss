@@ -22,9 +22,16 @@ Ext.define('NX.coreui.view.repository.recipe.Maven2Group', {
   alias: 'widget.nx-coreui-repository-maven2-group',
   requires: [
     'NX.Conditions',
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.view.repository.facet.Maven2Facet',
+    'NX.coreui.view.repository.facet.StorageFacet',
+    'NX.coreui.view.repository.facet.ViewFacet',
+    'NX.coreui.view.repository.facet.GroupFacet'
   ],
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

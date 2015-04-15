@@ -22,9 +22,14 @@ Ext.define('NX.coreui.view.repository.recipe.NugetHosted', {
   alias: 'widget.nx-coreui-repository-nuget-hosted',
   requires: [
     'NX.Conditions',
-    'NX.I18n'
+    'NX.I18n',
+    'NX.coreui.view.repository.facet.StorageFacet',
+    'NX.coreui.view.repository.facet.ViewFacet'
   ],
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

@@ -30,6 +30,9 @@ Ext.define('NX.coreui.view.repository.facet.Maven2Facet', {
     itemCls: 'required-field'
   },
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 

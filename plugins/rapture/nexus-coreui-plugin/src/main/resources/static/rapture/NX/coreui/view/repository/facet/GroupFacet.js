@@ -36,11 +36,14 @@ Ext.define('NX.coreui.view.repository.facet.GroupFacet', {
   },
   
   /**
-   * @public
+   * @param
    * Set the format to narrow the format of groups available to choose from.
    */
   format: undefined,
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
     

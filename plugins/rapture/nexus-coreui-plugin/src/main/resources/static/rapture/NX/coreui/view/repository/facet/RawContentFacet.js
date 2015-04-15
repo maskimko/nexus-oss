@@ -24,6 +24,9 @@ Ext.define('NX.coreui.view.repository.facet.RawContentFacet', {
     'NX.I18n'
   ],
 
+  /**
+   * @override
+   */
   initComponent: function() {
     var me = this;
 
