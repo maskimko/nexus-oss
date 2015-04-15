@@ -12,6 +12,7 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -22,8 +23,10 @@ import javax.validation.constraints.Min;
  */
 public class ConnectionConfig
 {
+  @Nullable
   private String userAgentCustomisation;
 
+  @Nullable
   private String urlParameters;
 
   @Min(0L)
@@ -40,19 +43,21 @@ public class ConnectionConfig
 
   private Boolean useTrustStore;
 
+  @Nullable
   public String getUserAgentCustomisation() {
     return userAgentCustomisation;
   }
 
-  public void setUserAgentCustomisation(final String userAgentCustomisation) {
+  public void setUserAgentCustomisation(final @Nullable String userAgentCustomisation) {
     this.userAgentCustomisation = userAgentCustomisation;
   }
 
+  @Nullable
   public String getUrlParameters() {
     return urlParameters;
   }
 
-  public void setUrlParameters(final String urlParameters) {
+  public void setUrlParameters(final @Nullable String urlParameters) {
     this.urlParameters = urlParameters;
   }
 
