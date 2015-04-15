@@ -80,7 +80,7 @@ extends DirectComponentSupport
    * Retrieve a list of available repositories references.
    */
   @DirectMethod
-//  @RequiresPermissions('nexus:repositories:read')
+  @RequiresPermissions('nexus:repositories:read')
   List<RepositoryReferenceXO> readReferences(final @Nullable StoreLoadParameters parameters) {
     return filter(parameters).collect { Repository repository ->
       new RepositoryReferenceXO(
@@ -96,6 +96,7 @@ extends DirectComponentSupport
   @RequiresAuthentication
   @Validate(groups = [Create.class, Default.class])
   RepositoryXO create(final @NotNull(message = '[repository] may not be null') @Valid RepositoryXO repository) {
+    convertDoublesToInts(repository.attributes)
     return asRepository(repositoryManager.create(new Configuration(
         repositoryName: repository.name,
         recipeName: repository.recipe,
@@ -107,6 +108,7 @@ extends DirectComponentSupport
   @RequiresAuthentication
   @Validate(groups = [Update.class, Default.class])
   RepositoryXO update(final @NotNull(message = '[repository] may not be null') @Valid RepositoryXO repository) {
+    convertDoublesToInts(repository.attributes)
     return asRepository(repositoryManager.update(repositoryManager.get(repository.name).configuration.with {
       attributes = repository.attributes
       return it
@@ -131,6 +133,22 @@ extends DirectComponentSupport
         attributes: input.configuration.attributes,
         url: "${BaseUrlHolder.get()}/repository/${input.name}"
     )
+  }
+
+  /**
+   * Gson inconveniently transforms all numbers in our Map<String, Object> to Double type.
+   * This mutates the passed in map to change all Double types to Integer.
+   */
+  @PackageScope
+  def convertDoublesToInts(final map) {
+    map.each { key, value ->
+      if (value instanceof Map) {
+        convertDoublesToInts(value)
+      }
+      else if (value instanceof Double) {
+        map[key] = (value as int)
+      }
+    }
   }
 
   @DirectPollMethod(event = "coreui_Repository_readStatus")
