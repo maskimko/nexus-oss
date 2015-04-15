@@ -17,9 +17,9 @@
  *
  * @since 3.0
  */
-Ext.define('NX.coreui.view.repository.facet.ContentValidationFacet', {
+Ext.define('NX.coreui.view.repository.facet.RawContentFacet', {
   extend: 'Ext.form.FieldContainer',
-  alias: 'widget.nx-coreui-repository-content-validation-facet',
+  alias: 'widget.nx-coreui-repository-content-rawcontent-facet',
   requires: [
     'NX.I18n'
   ],

@@ -31,10 +31,7 @@ Ext.define('NX.coreui.view.repository.recipe.RawHosted', {
     me.items = [
       { xtype: 'nx-coreui-repository-view-facet'},
       { xtype: 'nx-coreui-repository-storage-facet'},
-      {
-        xtype: 'nx-coreui-repository-content-validation-facet',
-        name: 'rawContent.strictContentTypeValidation'
-      }
+      { xtype: 'nx-coreui-repository-content-rawcontent-facet' }
   ]
 
     me.callParent(arguments);

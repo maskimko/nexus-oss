@@ -48,7 +48,7 @@ Ext.define('NX.coreui.controller.Repositories', {
     'repository.facet.ViewFacet',
     'repository.facet.GroupFacet',
     'repository.facet.HttpFacet',
-    'repository.facet.ContentValidationFacet',
+    'repository.facet.RawContentFacet',
     'repository.RepositorySettingsForm',
     'repository.recipe.Maven2Hosted',
     'repository.recipe.Maven2Proxy',
