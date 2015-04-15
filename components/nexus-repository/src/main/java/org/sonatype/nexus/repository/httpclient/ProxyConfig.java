@@ -12,6 +12,8 @@
  */
 package org.sonatype.nexus.repository.httpclient;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 /**
@@ -51,5 +53,14 @@ public class ProxyConfig
 
   public void setNonProxyHosts(final String[] nonProxyHosts) {
     this.nonProxyHosts = nonProxyHosts;
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "http=" + http +
+        ", https=" + https +
+        ", nonProxyHosts=" + Arrays.toString(nonProxyHosts) +
+        '}';
   }
 }

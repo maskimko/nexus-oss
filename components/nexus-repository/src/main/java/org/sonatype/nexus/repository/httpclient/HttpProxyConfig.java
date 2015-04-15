@@ -60,4 +60,13 @@ public class HttpProxyConfig
   public void setAuthentication(final AuthenticationConfig authentication) {
     this.authentication = authentication;
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "hostname='" + hostname + '\'' +
+        ", port=" + port +
+        ", authentication=" + authentication +
+        '}';
+  }
 }

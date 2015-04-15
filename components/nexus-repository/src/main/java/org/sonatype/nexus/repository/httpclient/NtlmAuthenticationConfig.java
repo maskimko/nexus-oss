@@ -14,6 +14,8 @@ package org.sonatype.nexus.repository.httpclient;
 
 import javax.annotation.Nullable;
 
+import org.sonatype.nexus.common.text.Strings2;
+
 import com.google.common.collect.Lists;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.NTCredentials;
@@ -86,5 +88,15 @@ public class NtlmAuthenticationConfig
   @Override
   public Credentials getCredentials() {
     return new NTCredentials(username, password, ntlmHost, ntlmDomain);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "username='" + username + '\'' +
+        ", password='" + Strings2.mask(password) + '\'' +
+        ", ntlmHost='" + ntlmHost + '\'' +
+        ", ntlmDomain='" + ntlmDomain + '\'' +
+        '}';
   }
 }

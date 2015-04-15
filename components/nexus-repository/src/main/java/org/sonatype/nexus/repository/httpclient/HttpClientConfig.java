@@ -56,4 +56,13 @@ public class HttpClientConfig
   public void setProxy(final ProxyConfig proxy) {
     this.proxy = proxy;
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "connection=" + connection +
+        ", authentication=" + authentication +
+        ", proxy=" + proxy +
+        '}';
+  }
 }

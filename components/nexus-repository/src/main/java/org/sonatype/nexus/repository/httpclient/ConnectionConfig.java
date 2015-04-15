@@ -100,4 +100,17 @@ public class ConnectionConfig
   public void setUseTrustStore(final Boolean useTrustStore) {
     this.useTrustStore = useTrustStore;
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "userAgentCustomisation='" + userAgentCustomisation + '\'' +
+        ", urlParameters='" + urlParameters + '\'' +
+        ", timeout=" + timeout +
+        ", retries=" + retries +
+        ", blocked=" + blocked +
+        ", autoBlock=" + autoBlock +
+        ", useTrustStore=" + useTrustStore +
+        '}';
+  }
 }
