@@ -38,6 +38,7 @@ import com.sonatype.nexus.repository.nuget.internal.odata.ODataUtils;
 import org.sonatype.nexus.repository.Repository;
 import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.config.ConfigurationFacet;
+import org.sonatype.sisu.goodies.common.Time;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
@@ -77,14 +78,16 @@ public class NugetProxyGalleryFacet
   {
     public int queryCacheSize = 300;
 
-    // TODO: Use Goodies Time conersion?
-    public int queryCacheItemMaxAgeSeconds = 3600;
+    /**
+     * Query cache item-max-age seconds.
+     */
+    public int queryCacheItemMaxAge = Time.minutes(60).toSecondsI();
 
     @Override
     public String toString() {
       return getClass().getSimpleName() + "{" +
           "queryCacheSize=" + queryCacheSize +
-          ", queryCacheItemMaxAgeSeconds=" + queryCacheItemMaxAgeSeconds +
+          ", queryCacheItemMaxAge=" + queryCacheItemMaxAge +
           '}';
     }
   }
@@ -110,7 +113,7 @@ public class NugetProxyGalleryFacet
 
     cache = CacheBuilder.newBuilder()
         .maximumSize(config.queryCacheSize)
-        .expireAfterWrite(config.queryCacheItemMaxAgeSeconds, TimeUnit.SECONDS)
+        .expireAfterWrite(config.queryCacheItemMaxAge, TimeUnit.SECONDS)
         .build();
   }
 

@@ -64,8 +64,11 @@ public abstract class ProxyFacetSupport
     @NotNull
     public URI remoteUrl;
 
+    /**
+     * Artifact max-age minutes.
+     */
     @NotNull
-    public int artifactMaxAge; // minutes
+    public int artifactMaxAge;
 
     @Override
     public String toString() {
