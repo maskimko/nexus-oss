@@ -13,6 +13,12 @@
 
 package org.sonatype.nexus.repository.storage;
 
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -22,10 +28,15 @@ import org.sonatype.nexus.blobstore.api.BlobStoreManager;
 import org.sonatype.nexus.common.stateguard.Guarded;
 import org.sonatype.nexus.orient.DatabaseInstance;
 import org.sonatype.nexus.repository.FacetSupport;
+import org.sonatype.nexus.repository.Repository;
 import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.config.ConfigurationFacet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -157,4 +168,65 @@ public class StorageFacetImpl
     );
   }
 
+  @Override
+  @Guarded(by = STARTED)
+  public void visitComponents(@Nullable final String whereClause,
+                              @Nullable final Map<String, Object> parameters,
+                              @Nullable final Iterable<Repository> repositories,
+                              @Nullable final String querySuffix,
+                              final ComponentVisitor componentVisitor)
+  {
+    checkNotNull(componentVisitor);
+
+    String pagingQuerySuffix = querySuffix; // scope is for logging purposes, to record exact query in case of Ex
+    try {
+      try (StorageTx tx = openTx()) {
+        componentVisitor.before(tx);
+      }
+      final StringBuilder stringBuilder = new StringBuilder();
+      if (!Strings.isNullOrEmpty(querySuffix)) {
+        stringBuilder.append(querySuffix).append(" ");
+      }
+      stringBuilder.append("skip %s limit %s");
+      final String queryStringWithPaging = stringBuilder.toString();
+
+      final int pageSize = 100;
+      int skip = 0;
+      int limit = pageSize;
+      final Formatter formatter = new Formatter(Locale.US);
+      final List<Component> components = Lists.newArrayList();
+      while (true) {
+        components.clear();
+        try (StorageTx tx = openTx()) {
+          pagingQuerySuffix = formatter.format(queryStringWithPaging, skip, limit).toString();
+          Iterables.addAll(
+              components,
+              tx.findComponents(whereClause, parameters, repositories, pagingQuerySuffix)
+          );
+        }
+
+        if (components.isEmpty()) {
+          break;
+        }
+
+        try (StorageTx tx = openTx()) {
+          for (Component component : components) {
+            componentVisitor.visit(tx, component);
+          }
+        }
+        skip = limit;
+        limit = limit + pageSize;
+      }
+      try (StorageTx tx = openTx()) {
+        componentVisitor.after(tx);
+      }
+    }
+    catch (Exception e) {
+      log.warn("Visiting components failed: where={}, parameters={}, repositories={}, querySuffix={}, visitor={}",
+          whereClause, parameters, repositories, pagingQuerySuffix, componentVisitor, e);
+      componentVisitor.failure(e);
+      Throwables.propagateIfPossible(e);
+      throw Throwables.propagate(e);
+    }
+  }
 }
