@@ -173,7 +173,7 @@ public class StorageFacetImplIT
     }
 
     try (StorageTx tx = underTest.openTx()) {
-      NestedAttributesMap map = tx.findBucketAsset(docId, tx.getBucket()).attributes();
+      NestedAttributesMap map = tx.findAsset(docId, tx.getBucket()).attributes();
 
       assertThat(map.size(), is(2));
       assertThat(map.child("bag1").size(), is(1));
@@ -290,7 +290,7 @@ public class StorageFacetImplIT
     // Get the asset and make sure it contains what we expect
     try (StorageTx tx = underTest.openTx()) {
       Bucket bucket = tx.getBucket();
-      Asset asset = tx.findBucketAsset(docId, bucket);
+      Asset asset = tx.findAsset(docId, bucket);
       assert asset != null;
 
       NestedAttributesMap outputMap = asset.attributes();
@@ -348,13 +348,13 @@ public class StorageFacetImplIT
       checkSize(tx.browseAssets(bucket), 2);
       checkSize(tx.browseComponents(bucket), 1);
 
-      assertNotNull(tx.findBucketAsset(asset1.getEntityMetadata().getId(), bucket));
-      assertNotNull(tx.findBucketComponent(component.getEntityMetadata().getId(), bucket));
+      assertNotNull(tx.findAsset(asset1.getEntityMetadata().getId(), bucket));
+      assertNotNull(tx.findComponent(component.getEntityMetadata().getId(), bucket));
 
-      checkSize(tx.browseAssets(tx.findBucketComponent(component.getEntityMetadata().getId(), bucket)), 1);
-      assertNotNull(tx.firstAsset(tx.findBucketComponent(component.getEntityMetadata().getId(), bucket)));
-      assertNull(tx.findBucketAsset(asset1.getEntityMetadata().getId(), bucket).componentId());
-      assertNotNull(tx.findBucketAsset(asset2.getEntityMetadata().getId(), bucket).componentId());
+      checkSize(tx.browseAssets(tx.findComponent(component.getEntityMetadata().getId(), bucket)), 1);
+      assertNotNull(tx.firstAsset(tx.findComponent(component.getEntityMetadata().getId(), bucket)));
+      assertNull(tx.findAsset(asset1.getEntityMetadata().getId(), bucket).componentId());
+      assertNotNull(tx.findAsset(asset2.getEntityMetadata().getId(), bucket).componentId());
 
       assertNull(tx.findAssetWithProperty(P_NAME, "nomatch", bucket));
       assertNotNull(tx.findAssetWithProperty(P_NAME, "foo", bucket));
@@ -371,8 +371,8 @@ public class StorageFacetImplIT
 
       checkSize(tx.browseAssets(bucket), 0);
       checkSize(tx.browseComponents(bucket), 0);
-      assertNull(tx.findBucketAsset(asset1Id, bucket));
-      assertNull(tx.findBucketComponent(componentId, bucket));
+      assertNull(tx.findAsset(asset1Id, bucket));
+      assertNull(tx.findComponent(componentId, bucket));
 
       // NOTE: It doesn't matter for this test, but you should commit when finished with one or more writes
       //       If you don't, your changes will be automatically rolled back.
@@ -422,7 +422,7 @@ public class StorageFacetImplIT
       if (simulateConflict) {
         // cause a conflict to occur later by reading the asset before the other tx starts
         // (this causes the MVCC version comparison at commit-time to fail)
-        asset = checkNotNull(mainTx.findBucketAsset(assetId, bucket));
+        asset = checkNotNull(mainTx.findAsset(assetId, bucket));
       }
 
       // 2. modify and commit the asset in a separate tx (auxTx) in another thread
@@ -432,7 +432,7 @@ public class StorageFacetImplIT
         public void run() {
           try (StorageTx auxTx = underTest.openTx()) {
             Bucket bucket = auxTx.getBucket();
-            Asset asset = checkNotNull(auxTx.findBucketAsset(assetId, bucket));
+            Asset asset = checkNotNull(auxTx.findAsset(assetId, bucket));
             asset.name("firstValue");
             auxTx.saveAsset(asset);
             auxTx.commit();
@@ -445,7 +445,7 @@ public class StorageFacetImplIT
       // 3. modify and commit the asset in mainTx, in the main thread
       if (!simulateConflict) {
         // only read the asset we propose to change *after* the other transaction completes
-        asset = checkNotNull(mainTx.findBucketAsset(assetId, bucket));
+        asset = checkNotNull(mainTx.findAsset(assetId, bucket));
       }
       asset.name("secondValue");
       mainTx.saveAsset(asset);
@@ -460,7 +460,7 @@ public class StorageFacetImplIT
     // not simulating a conflict; verify the expected state
     try (StorageTx tx = underTest.openTx()) {
       Bucket bucket = tx.getBucket();
-      Asset asset = checkNotNull(tx.findBucketAsset(assetId, bucket));
+      Asset asset = checkNotNull(tx.findAsset(assetId, bucket));
 
       String name = asset.name();
       EntityVersion finalVersion = asset.getEntityMetadata().getVersion();

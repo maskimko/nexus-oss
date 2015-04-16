@@ -103,7 +103,7 @@ public interface StorageTx
    * Gets an asset by id, owned by the specified bucket, or {@code null} if not found.
    */
   @Nullable
-  Asset findBucketAsset(EntityId id, Bucket bucket);
+  Asset findAsset(EntityId id, Bucket bucket);
 
   /**
    * Gets an asset by some identifying property, owned by the specified bucket, or {@code null} if not found.
@@ -147,7 +147,7 @@ public interface StorageTx
    * Gets a component by id, owned by the specified bucket, or {@code null} if not found.
    */
   @Nullable
-  Component findBucketComponent(EntityId id, Bucket bucket);
+  Component findComponent(EntityId id, Bucket bucket);
 
   /**
    * Gets a component by some identifying property, or {@code null} if not found.

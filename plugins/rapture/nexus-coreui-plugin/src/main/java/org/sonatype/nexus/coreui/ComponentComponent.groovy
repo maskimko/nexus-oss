@@ -63,7 +63,7 @@ extends DirectComponentSupport
     }
     StorageTx storageTx = repository.facet(StorageFacet).openTx()
     try {
-      Component component = storageTx.findBucketComponent(new EntityId(componentId), storageTx.getBucket())
+      Component component = storageTx.findComponent(new EntityId(componentId), storageTx.getBucket())
       if (component == null) {
         return null
       }
