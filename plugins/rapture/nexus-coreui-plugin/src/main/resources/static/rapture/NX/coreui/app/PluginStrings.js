@@ -262,7 +262,9 @@ Ext.define('NX.coreui.app.PluginStrings', {
     ADMIN_REPOSITORIES_SETTINGS_CONTENT_TYPE_VALIDATION: 'Strict Content Type Validation',
     ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_ENABLED: 'Not found cache enabled',
     ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL: 'Not found cache TTL',
-    ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL_HELP: 'How long to cache the fact that a file was not found in the repository (in minutes)',
+    ADMIN_REPOSITORIES_SETTINGS_NEGATIVE_CACHE_TTL_HELP: 'How long to cache the fact that a file was not found in the repository (in minutes)',    
+    ADMIN_REPOSITORIES_SETTINGS_VIEW_ONLINE: 'Online',
+    ADMIN_REPOSITORIES_SETTINGS_VIEW_ONLINE_HELP: 'Whether or not the repository should accept incoming requests',
 
     // Admin -> Repository -> Blobstores
     ADMIN_BLOBSTORES_TITLE: 'Blobstores',

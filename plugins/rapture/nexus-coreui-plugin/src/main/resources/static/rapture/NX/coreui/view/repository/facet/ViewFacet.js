@@ -34,9 +34,10 @@ Ext.define('NX.coreui.view.repository.facet.ViewFacet', {
       {
         xtype: 'checkbox',
         name: 'view.online',
-        fieldLabel: 'Online',
+        fieldLabel: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_VIEW_ONLINE'),
+        helpText: NX.I18n.get('ADMIN_REPOSITORIES_SETTINGS_VIEW_ONLINE_HELP'),
         value: true
-      },
+      }
     ];
 
     me.callParent(arguments);
