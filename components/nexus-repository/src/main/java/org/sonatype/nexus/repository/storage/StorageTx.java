@@ -88,10 +88,22 @@ public interface StorageTx
   Iterable<Component> browseComponents(Bucket bucket);
 
   /**
+   * Gets a bucket by id, or {@code null} if not found.
+   */
+  @Nullable
+  Bucket findBucket(EntityId id);
+
+  /**
+   * Gets an asset by id, or {@code null} if not found.
+   */
+  @Nullable
+  Asset findAsset(EntityId id);
+
+  /**
    * Gets an asset by id, owned by the specified bucket, or {@code null} if not found.
    */
   @Nullable
-  Asset findAsset(EntityId id, Bucket bucket);
+  Asset findBucketAsset(EntityId id, Bucket bucket);
 
   /**
    * Gets an asset by some identifying property, owned by the specified bucket, or {@code null} if not found.
@@ -126,10 +138,16 @@ public interface StorageTx
                    @Nullable String querySuffix);
 
   /**
+   * Gets a component by id, or {@code null} if not found.
+   */
+  @Nullable
+  Component findComponent(EntityId id);
+
+  /**
    * Gets a component by id, owned by the specified bucket, or {@code null} if not found.
    */
   @Nullable
-  Component findComponent(EntityId id, Bucket bucket);
+  Component findBucketComponent(EntityId id, Bucket bucket);
 
   /**
    * Gets a component by some identifying property, or {@code null} if not found.

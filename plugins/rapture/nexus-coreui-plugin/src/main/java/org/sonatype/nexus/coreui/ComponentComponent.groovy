@@ -11,7 +11,7 @@
  * Eclipse Foundation. All other trademarks are the property of their respective owners.
  */
 package org.sonatype.nexus.coreui
-import com.orientechnologies.orient.core.id.ORecordId
+
 import com.softwarementors.extjs.djn.config.annotations.DirectAction
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod
 import org.apache.shiro.authz.annotation.RequiresPermissions
@@ -22,7 +22,6 @@ import org.sonatype.nexus.extdirect.DirectComponentSupport
 import org.sonatype.nexus.extdirect.model.StoreLoadParameters
 import org.sonatype.nexus.repository.Repository
 import org.sonatype.nexus.repository.manager.RepositoryManager
-import org.sonatype.nexus.repository.storage.Asset
 import org.sonatype.nexus.repository.storage.Component
 import org.sonatype.nexus.repository.storage.StorageFacet
 import org.sonatype.nexus.repository.storage.StorageTx
@@ -33,7 +32,6 @@ import javax.inject.Named
 import javax.inject.Singleton
 import javax.validation.constraints.NotNull
 
-import static org.sonatype.nexus.repository.storage.StorageFacet.P_NAME
 /**
  * Component {@link DirectComponent}.
  *
@@ -65,7 +63,7 @@ extends DirectComponentSupport
     }
     StorageTx storageTx = repository.facet(StorageFacet).openTx()
     try {
-      Component component = storageTx.findComponent(new EntityId(componentId), storageTx.getBucket())
+      Component component = storageTx.findBucketComponent(new EntityId(componentId), storageTx.getBucket())
       if (component == null) {
         return null
       }

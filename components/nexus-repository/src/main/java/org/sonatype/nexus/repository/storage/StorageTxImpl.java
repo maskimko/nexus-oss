@@ -168,7 +168,23 @@ public class StorageTxImpl
   @Nullable
   @Override
   @Guarded(by = OPEN)
-  public Asset findAsset(final EntityId id, final Bucket bucket) {
+  public Bucket findBucket(final EntityId id) {
+    checkNotNull(id);
+    return bucketEntityAdapter.get(db, id);
+  }
+
+  @Nullable
+  @Override
+  @Guarded(by = OPEN)
+  public Asset findAsset(final EntityId id) {
+    checkNotNull(id);
+    return assetEntityAdapter.get(db, id);
+  }
+
+  @Nullable
+  @Override
+  @Guarded(by = OPEN)
+  public Asset findBucketAsset(final EntityId id, final Bucket bucket) {
     checkNotNull(id);
     checkNotNull(bucket);
     Asset asset = assetEntityAdapter.get(db, id);
@@ -210,7 +226,15 @@ public class StorageTxImpl
   @Nullable
   @Override
   @Guarded(by = OPEN)
-  public Component findComponent(final EntityId id, final Bucket bucket) {
+  public Component findComponent(final EntityId id) {
+    checkNotNull(id);
+    return componentEntityAdapter.get(db, id);
+  }
+
+  @Nullable
+  @Override
+  @Guarded(by = OPEN)
+  public Component findBucketComponent(final EntityId id, final Bucket bucket) {
     checkNotNull(id);
     checkNotNull(bucket);
     Component component = componentEntityAdapter.get(db, id);
