@@ -62,11 +62,8 @@ public interface StorageFacet
   StorageTx openTx();
 
   /**
-   * Visits components selected by passed in parameters, using the passed in {@link ComponentVisitor}.
+   * Visits components selected by {@link ComponentCursor}, using the passed in {@link ComponentVisitor}.
    */
-  void visitComponents(@Nullable String whereClause,
-                       @Nullable Map<String, Object> parameters,
-                       @Nullable Iterable<Repository> repositories,
-                       @Nullable String querySuffix,
+  void visitComponents(ComponentCursor componentCursor,
                        ComponentVisitor componentVisitor);
 }

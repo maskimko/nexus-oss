@@ -13,12 +13,8 @@
 
 package org.sonatype.nexus.repository.storage;
 
-import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -28,12 +24,11 @@ import org.sonatype.nexus.blobstore.api.BlobStoreManager;
 import org.sonatype.nexus.common.stateguard.Guarded;
 import org.sonatype.nexus.orient.DatabaseInstance;
 import org.sonatype.nexus.repository.FacetSupport;
-import org.sonatype.nexus.repository.Repository;
 import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.config.ConfigurationFacet;
+import org.sonatype.nexus.repository.storage.ComponentCursor.Cursor;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -168,62 +163,46 @@ public class StorageFacetImpl
     );
   }
 
-  private static final int VISITOR_PAGE_SIZE = 100;
-
   @Override
   @Guarded(by = STARTED)
-  public void visitComponents(@Nullable final String whereClause,
-                              @Nullable final Map<String, Object> parameters,
-                              @Nullable final Iterable<Repository> repositories,
-                              @Nullable final String querySuffix,
+  public void visitComponents(final ComponentCursor componentCursor,
                               final ComponentVisitor componentVisitor)
   {
+    checkNotNull(componentCursor);
     checkNotNull(componentVisitor);
 
-    String pagingQuerySuffix = querySuffix; // scope is for logging purposes, to record exact query in case of Ex
     log.debug("Visiting components started: visitor={}", componentVisitor);
     try {
       try (StorageTx tx = openTx()) {
         componentVisitor.before(tx);
       }
-      final StringBuilder stringBuilder = new StringBuilder();
-      if (!Strings.isNullOrEmpty(querySuffix)) {
-        stringBuilder.append(querySuffix).append(" ");
-      }
-      stringBuilder.append("skip %s limit %s");
-      final String queryStringWithPaging = stringBuilder.toString();
-
-      int skip = 0;
-      int limit = VISITOR_PAGE_SIZE;
-      final Formatter formatter = new Formatter(Locale.US);
       final List<Component> components = Lists.newArrayList();
-      while (true) {
-        components.clear();
-        try (StorageTx tx = openTx()) {
-          pagingQuerySuffix = formatter.format(queryStringWithPaging, skip, limit).toString();
-          Iterables.addAll(
-              components,
-              tx.findComponents(whereClause, parameters, repositories, pagingQuerySuffix)
-          );
-        }
+      try (Cursor cursor = componentCursor.open()) {
+        while (true) {
+          components.clear();
+          try (StorageTx tx = openTx()) {
+            Iterables.addAll(
+                components,
+                cursor.next(tx)
+            );
+          }
 
-        if (components.isEmpty()) {
-          break;
-        }
+          if (components.isEmpty()) {
+            break;
+          }
 
-        try (StorageTx tx = openTx()) {
-          for (Component component : components) {
-            final Bucket bucket = tx.findBucket(component.bucketId());
-            if (bucket != null) {
-              final Component freshComponent = tx.findComponent(component.getEntityMetadata().getId(), bucket);
-              if (freshComponent != null) {
-                componentVisitor.visit(tx, freshComponent);
+          try (StorageTx tx = openTx()) {
+            for (Component component : components) {
+              final Bucket bucket = tx.findBucket(component.bucketId());
+              if (bucket != null) {
+                final Component freshComponent = tx.findComponent(component.getEntityMetadata().getId(), bucket);
+                if (freshComponent != null) {
+                  componentVisitor.visit(tx, freshComponent);
+                }
               }
             }
           }
         }
-        skip = limit;
-        limit = limit + VISITOR_PAGE_SIZE;
       }
       try (StorageTx tx = openTx()) {
         componentVisitor.after(tx);
@@ -231,8 +210,7 @@ public class StorageFacetImpl
       log.debug("Visiting components finished: visitor={}", componentVisitor);
     }
     catch (Exception e) {
-      log.warn("Visiting components failed: where={}, parameters={}, repositories={}, querySuffix={}, visitor={}",
-          whereClause, parameters, repositories, pagingQuerySuffix, componentVisitor, e);
+      log.warn("Visiting components failed: cursor={}, visitor={}", componentCursor, componentVisitor, e);
       componentVisitor.failure(e);
       Throwables.propagateIfPossible(e);
       throw Throwables.propagate(e);
