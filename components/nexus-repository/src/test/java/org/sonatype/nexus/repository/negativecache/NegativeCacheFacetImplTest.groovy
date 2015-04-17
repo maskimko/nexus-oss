@@ -13,14 +13,6 @@
 
 package org.sonatype.nexus.repository.negativecache
 
-import com.google.common.collect.Lists
-import net.sf.ehcache.Cache
-import net.sf.ehcache.CacheManager
-import net.sf.ehcache.Ehcache
-import net.sf.ehcache.Element
-import org.junit.Before
-import org.junit.Test
-import org.mockito.ArgumentCaptor
 import org.sonatype.nexus.repository.Repository
 import org.sonatype.nexus.repository.config.Configuration
 import org.sonatype.nexus.repository.config.ConfigurationFacet
@@ -29,6 +21,15 @@ import org.sonatype.nexus.repository.view.Status
 import org.sonatype.sisu.goodies.common.Time
 import org.sonatype.sisu.goodies.eventbus.EventBus
 import org.sonatype.sisu.litmus.testsupport.TestSupport
+
+import com.google.common.collect.Lists
+import net.sf.ehcache.Cache
+import net.sf.ehcache.CacheManager
+import net.sf.ehcache.Ehcache
+import net.sf.ehcache.Element
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentCaptor
 
 import static net.sf.ehcache.Status.STATUS_ALIVE
 import static net.sf.ehcache.Status.STATUS_SHUTDOWN
@@ -68,7 +69,7 @@ class NegativeCacheFacetImplTest
       @Override
       Ehcache newCache(final String name, final int timeToLiveSeconds) {
         assert name == 'negative-cache-test'
-        assert timeToLiveSeconds.equals(Time.minutes(1440).toSecondsI())
+        assert timeToLiveSeconds.equals(Time.hours(24).toSecondsI())
         when(cache.name).thenReturn(name)
         return cache
       }

@@ -57,7 +57,7 @@ public class NegativeCacheFacetImpl
     /**
      * Time-to-live seconds.
      */
-    public int timeToLive = Time.minutes(1440).toSecondsI();
+    public int timeToLive = Time.hours(24).toSecondsI();
 
     @Override
     public String toString() {
