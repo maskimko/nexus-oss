@@ -13,9 +13,9 @@
 package org.sonatype.nexus.repository.httpclient;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.sonatype.nexus.validation.constraint.PortNumber;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -30,8 +30,7 @@ public class HttpProxyConfig
   private String hostname;
 
   @NotNull
-  @Min(1L)
-  @Max(65535L)
+  @PortNumber
   private Integer port;
 
   @Valid
