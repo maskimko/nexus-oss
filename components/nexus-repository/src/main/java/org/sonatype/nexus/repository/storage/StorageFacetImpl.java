@@ -26,9 +26,9 @@ import org.sonatype.nexus.orient.DatabaseInstance;
 import org.sonatype.nexus.repository.FacetSupport;
 import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.config.ConfigurationFacet;
-import org.sonatype.nexus.repository.storage.ComponentCursor.Cursor;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -165,53 +165,53 @@ public class StorageFacetImpl
 
   @Override
   @Guarded(by = STARTED)
-  public void visitComponents(final ComponentCursor componentCursor,
-                              final ComponentVisitor componentVisitor)
+  public <T> void visit(final Supplier<Cursor<T>> cursorSupplier,
+                        final Visitor<T> visitor)
   {
-    checkNotNull(componentCursor);
-    checkNotNull(componentVisitor);
+    checkNotNull(cursorSupplier);
+    checkNotNull(visitor);
 
-    log.debug("Visiting components started: visitor={}", componentVisitor);
+    log.debug("Visiting started: cursorSupplier={}, visitor={}", cursorSupplier, visitor);
     try {
       try (StorageTx tx = openTx()) {
-        componentVisitor.before(tx);
+        visitor.before(tx);
       }
-      final List<Component> components = Lists.newArrayList();
-      try (Cursor cursor = componentCursor.open()) {
+      final List<T> nodes = Lists.newArrayList();
+      try (Cursor<T> cursor = cursorSupplier.get()) {
         while (true) {
-          components.clear();
+          nodes.clear();
           try (StorageTx tx = openTx()) {
             Iterables.addAll(
-                components,
+                nodes,
                 cursor.next(tx)
             );
           }
 
-          if (components.isEmpty()) {
+          if (nodes.isEmpty()) {
             break;
           }
 
           try (StorageTx tx = openTx()) {
-            for (Component component : components) {
-              final Bucket bucket = tx.findBucket(component.bucketId());
-              if (bucket != null) {
-                final Component freshComponent = tx.findComponent(component.getEntityMetadata().getId(), bucket);
-                if (freshComponent != null) {
-                  componentVisitor.visit(tx, freshComponent);
-                }
+            for (T node : nodes) {
+              final T freshNode = cursor.node(tx, node);
+              if (freshNode != null) {
+                visitor.visit(tx, freshNode);
               }
             }
           }
         }
+        log.debug("Components cursor exhausted: cursor={}, visitor={}", cursor, visitor);
       }
       try (StorageTx tx = openTx()) {
-        componentVisitor.after(tx);
+        visitor.after(tx);
       }
-      log.debug("Visiting components finished: visitor={}", componentVisitor);
+      log.debug("Visiting components finished: cursorSupplier={}, visitor={}",
+          cursorSupplier, visitor);
     }
     catch (Exception e) {
-      log.warn("Visiting components failed: cursor={}, visitor={}", componentCursor, componentVisitor, e);
-      componentVisitor.failure(e);
+      log.warn("Visiting components failed: cursorSupplier={}, visitor={}",
+          cursorSupplier, visitor, e);
+      visitor.failure(e);
       Throwables.propagateIfPossible(e);
       throw Throwables.propagate(e);
     }

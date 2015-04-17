@@ -12,12 +12,9 @@
  */
 package org.sonatype.nexus.repository.storage;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import org.sonatype.nexus.repository.Facet;
-import org.sonatype.nexus.repository.Repository;
+
+import com.google.common.base.Supplier;
 
 /**
  * Storage {@link Facet}, providing component and asset storage for a repository.
@@ -62,8 +59,8 @@ public interface StorageFacet
   StorageTx openTx();
 
   /**
-   * Visits components selected by {@link ComponentCursor}, using the passed in {@link ComponentVisitor}.
+   * Visits nodes selected by {@link Cursor} provided by cursorSupplier, using the passed in {@link Visitor}.
    */
-  void visitComponents(ComponentCursor componentCursor,
-                       ComponentVisitor componentVisitor);
+  <T> void visit(Supplier<Cursor<T>> cursorSupplier,
+                 Visitor<T> visitor);
 }

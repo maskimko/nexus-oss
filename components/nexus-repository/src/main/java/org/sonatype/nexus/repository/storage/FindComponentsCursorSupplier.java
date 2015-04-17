@@ -23,6 +23,7 @@ import org.sonatype.nexus.repository.Repository;
 import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -32,9 +33,9 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * @since 3.0
  */
-public class FindComponentCursor
+public class FindComponentsCursorSupplier
     extends ComponentSupport
-    implements ComponentCursor
+    implements Supplier<Cursor<Component>>
 {
   private static final int DEFAULT_PAGE_SIZE = 100;
 
@@ -51,19 +52,19 @@ public class FindComponentCursor
 
   private final int pageSize;
 
-  public FindComponentCursor(final @Nullable String whereClause,
-                             final @Nullable Map<String, Object> parameters,
-                             final @Nullable Iterable<Repository> repositories,
-                             final @Nullable String querySuffix)
+  public FindComponentsCursorSupplier(final @Nullable String whereClause,
+                                      final @Nullable Map<String, Object> parameters,
+                                      final @Nullable Iterable<Repository> repositories,
+                                      final @Nullable String querySuffix)
   {
     this(whereClause, parameters, repositories, querySuffix, DEFAULT_PAGE_SIZE);
   }
 
-  public FindComponentCursor(final @Nullable String whereClause,
-                             final @Nullable Map<String, Object> parameters,
-                             final @Nullable Iterable<Repository> repositories,
-                             final @Nullable String querySuffix,
-                             final int pageSize)
+  public FindComponentsCursorSupplier(final @Nullable String whereClause,
+                                      final @Nullable Map<String, Object> parameters,
+                                      final @Nullable Iterable<Repository> repositories,
+                                      final @Nullable String querySuffix,
+                                      final int pageSize)
   {
     checkArgument(pageSize > 0, "must be a positive integer: %s", pageSize);
 
@@ -76,7 +77,7 @@ public class FindComponentCursor
 
   @Nonnull
   @Override
-  public Cursor open() {
+  public Cursor<Component> get() {
     return new FCursor(
         whereClause,
         parameters,
@@ -98,7 +99,7 @@ public class FindComponentCursor
   }
 
   private static class FCursor
-      implements Cursor
+      implements Cursor<Component>
   {
     @Nullable
     private final String whereClause;
@@ -158,6 +159,18 @@ public class FindComponentCursor
         skip = limit;
         limit = limit + pageSize;
       }
+    }
+
+    @Nullable
+    @Override
+    public Component node(final StorageTx tx, final Component node) {
+      final Bucket bucket = tx.findBucket(node.bucketId());
+      if (bucket != null) {
+        if (node.getEntityMetadata() != null) {
+          return tx.findComponent(node.getEntityMetadata().getId(), bucket);
+        }
+      }
+      return null;
     }
 
     @Override

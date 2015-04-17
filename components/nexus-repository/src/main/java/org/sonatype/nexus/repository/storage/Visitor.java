@@ -12,34 +12,34 @@
  */
 package org.sonatype.nexus.repository.storage;
 
-import javax.annotation.Nonnull;
+import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 /**
- * A component cursor.
+ * A generic node visitor.
  *
  * @since 3.0
  */
-public interface ComponentCursor
+public class Visitor<T>
+    extends ComponentSupport
 {
-
-  interface Cursor
-      extends AutoCloseable
-  {
-    /**
-     * Provides a chunk of components from cursor. If no more chunks, empty iterator is returned.
-     */
-    @Nonnull
-    Iterable<Component> next(StorageTx tx);
-
-    /**
-     * Closes the cursor, making the instance ineligible for further use.
-     */
-    void close();
-  }
+  /**
+   * Always invoked before visiting begins, with a new TX.
+   */
+  public void before(StorageTx tx) {}
 
   /**
-   * Opens the cursor and returns {@link Cursor}, never {@code null}.
+   * Invoked for each visited node, with a new TX.
    */
-  @Nonnull
-  Cursor open();
+  public void visit(StorageTx tx, T node) {}
+
+  /**
+   * Always invoked in case of visiting is finished cleanly, with a new TX.
+   */
+  public void after(StorageTx tx) {}
+
+  /**
+   * Always invoked in case of visiting is interrupted with an exception. This method will be invoked even if this
+   * visitor's {@link #visit(StorageTx, Object)} method threw.
+   */
+  public void failure(Exception e) {}
 }

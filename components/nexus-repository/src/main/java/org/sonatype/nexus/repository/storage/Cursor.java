@@ -12,34 +12,34 @@
  */
 package org.sonatype.nexus.repository.storage;
 
-import org.sonatype.sisu.goodies.common.ComponentSupport;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
- * A component visitor.
+ * A generic node cursor.
  *
  * @since 3.0
  */
-public class ComponentVisitor
-    extends ComponentSupport
+public interface Cursor<T>
+    extends AutoCloseable
 {
   /**
-   * Always invoked before visiting begins, with a new TX.
+   * Provides a chunk of node IDs from cursor. If no more chunks, empty iterator is returned, never returns {@code
+   * null}. It is not guaranteed that the calls will happen using same {@link StorageTx}, so the cursor must keep
+   * some internal state and probably implement pagination on it's own.
    */
-  public void before(StorageTx tx) {}
+  @Nonnull
+  Iterable<T> next(StorageTx tx);
 
   /**
-   * Invoked for each visited component, with a new TX.
+   * Provides a fresh instance of the node, using current transaction. Might return {@code null} for various reasons,
+   * for example node got deleted between {@link #next(StorageTx)} and this method invocation.
    */
-  public void visit(StorageTx tx, Component component) {}
+  @Nullable
+  T node(StorageTx tx, T node);
 
   /**
-   * Always invoked in case of visiting is finished cleanly, with a new TX.
+   * Closes the cursor, making the instance ineligible for further use.
    */
-  public void after(StorageTx tx) {}
-
-  /**
-   * Always invoked in case of visiting is interrupted with an exception. This method will be invoked even if this
-   * visitor's {@link #visit(StorageTx, Component)} method threw.
-   */
-  public void failure(Exception e) {}
+  void close();
 }
