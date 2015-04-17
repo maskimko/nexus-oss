@@ -29,8 +29,11 @@ public class ConnectionConfig
   @Nullable
   private String urlParameters;
 
+  /**
+   * Timeout milliseconds.
+   */
   @Min(0L)
-  @Max(3600L)
+  @Max(3600000L) // 1 hour
   private Integer timeout;
 
   @Min(0L)
