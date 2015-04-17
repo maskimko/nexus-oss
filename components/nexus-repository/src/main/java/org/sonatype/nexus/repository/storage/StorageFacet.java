@@ -14,8 +14,6 @@ package org.sonatype.nexus.repository.storage;
 
 import org.sonatype.nexus.repository.Facet;
 
-import com.google.common.base.Supplier;
-
 /**
  * Storage {@link Facet}, providing component and asset storage for a repository.
  *
@@ -59,8 +57,8 @@ public interface StorageFacet
   StorageTx openTx();
 
   /**
-   * Visits nodes selected by {@link Cursor} provided by cursorSupplier, using the passed in {@link Visitor}.
+   * Visits nodes selected by {@link Cursor}, using the passed in {@link Visitor}.
    */
-  <T> void visit(Supplier<Cursor<T>> cursorSupplier,
+  <T> void visit(Cursor<T> cursor,
                  Visitor<T> visitor);
 }

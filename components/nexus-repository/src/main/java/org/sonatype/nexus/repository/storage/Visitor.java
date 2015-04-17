@@ -12,10 +12,13 @@
  */
 package org.sonatype.nexus.repository.storage;
 
+import javax.annotation.Nullable;
+
 import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 /**
- * A generic node visitor.
+ * A generic node visitor.  No assumptions should be made agains tx passed in, it may be same or
+ * different than passed into other methods.
  *
  * @since 3.0
  */
@@ -23,23 +26,18 @@ public class Visitor<T>
     extends ComponentSupport
 {
   /**
-   * Always invoked before visiting begins, with a new TX.
+   * Always invoked before visiting begins.
    */
-  public void before(StorageTx tx) {}
+  public void before(final StorageTx tx) {}
 
   /**
-   * Invoked for each visited node, with a new TX.
+   * Invoked for each visited node.
    */
-  public void visit(StorageTx tx, T node) {}
+  public void visit(final StorageTx tx, final T node) {}
 
   /**
-   * Always invoked in case of visiting is finished cleanly, with a new TX.
+   * Always invoked in case of visiting is finished. If exception thrown even by this same visitor, this method will be
+   * invoked.
    */
-  public void after(StorageTx tx) {}
-
-  /**
-   * Always invoked in case of visiting is interrupted with an exception. This method will be invoked even if this
-   * visitor's {@link #visit(StorageTx, Object)} method threw.
-   */
-  public void failure(Exception e) {}
+  public void after(final StorageTx tx, final @Nullable Exception e) {}
 }

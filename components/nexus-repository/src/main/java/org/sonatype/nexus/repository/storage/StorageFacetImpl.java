@@ -28,7 +28,7 @@ import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.config.ConfigurationFacet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Supplier;
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -165,55 +165,47 @@ public class StorageFacetImpl
 
   @Override
   @Guarded(by = STARTED)
-  public <T> void visit(final Supplier<Cursor<T>> cursorSupplier,
+  public <T> void visit(final Cursor<T> cursor,
                         final Visitor<T> visitor)
   {
-    checkNotNull(cursorSupplier);
+    checkNotNull(cursor);
     checkNotNull(visitor);
 
-    log.debug("Visiting started: cursorSupplier={}, visitor={}", cursorSupplier, visitor);
+    final Stopwatch stopwatch = Stopwatch.createStarted();
+    List<T> nodes = Lists.newArrayList();
     try {
       try (StorageTx tx = openTx()) {
+        log.debug("Visit before: cursor={}, visitor={}", cursor, visitor);
         visitor.before(tx);
       }
-      final List<T> nodes = Lists.newArrayList();
-      try (Cursor<T> cursor = cursorSupplier.get()) {
-        while (true) {
+      while (true) {
+        try (StorageTx tx = openTx()) {
           nodes.clear();
-          try (StorageTx tx = openTx()) {
-            Iterables.addAll(
-                nodes,
-                cursor.next(tx)
-            );
-          }
-
-          if (nodes.isEmpty()) {
-            break;
-          }
-
-          try (StorageTx tx = openTx()) {
+          try {
+            Iterables.addAll(nodes, cursor.next(tx));
+            if (nodes.isEmpty()) {
+              log.debug("Components cursor exhausted: cursor={}, visitor={}", cursor, visitor);
+              break;
+            }
             for (T node : nodes) {
-              final T freshNode = cursor.node(tx, node);
-              if (freshNode != null) {
-                visitor.visit(tx, freshNode);
-              }
+              visitor.visit(tx, node);
             }
           }
+          catch (Exception e) {
+            log.warn("Visiting failed: cursor={}, visitor={}", cursor, visitor, e);
+            visitor.after(tx, e);
+            throw Throwables.propagate(e);
+          }
         }
-        log.debug("Components cursor exhausted: cursor={}, visitor={}", cursor, visitor);
       }
+      log.debug("Visit after: cursor={}, visitor={}", cursor, visitor);
       try (StorageTx tx = openTx()) {
-        visitor.after(tx);
+        visitor.after(tx, null);
       }
-      log.debug("Visiting components finished: cursorSupplier={}, visitor={}",
-          cursorSupplier, visitor);
     }
-    catch (Exception e) {
-      log.warn("Visiting components failed: cursorSupplier={}, visitor={}",
-          cursorSupplier, visitor, e);
-      visitor.failure(e);
-      Throwables.propagateIfPossible(e);
-      throw Throwables.propagate(e);
+    finally {
+      cursor.close();
     }
+    log.debug("Visiting finished: cursor={}, visitor={}, time={}", cursor, visitor, stopwatch);
   }
 }

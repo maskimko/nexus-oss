@@ -20,64 +20,47 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.sonatype.nexus.repository.Repository;
-import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 import com.google.common.base.Strings;
-import com.google.common.base.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * A component cursor that uses {@link StorageTx#findComponents(String, Map, Iterable, String)} method combined with
- * skip-limit paging to create "chunks".
+ * Collection of common cursors for {@link Asset} and {@link Component}.
  *
  * @since 3.0
  */
-public class FindComponentsCursorSupplier
-    extends ComponentSupport
-    implements Supplier<Cursor<Component>>
+public class Cursors
 {
   private static final int DEFAULT_PAGE_SIZE = 100;
 
-  @Nullable
-  private final String whereClause;
-
-  @Nullable
-  private final Map<String, Object> parameters;
-
-  @Nullable
-  private final Iterable<Repository> repositories;
-
-  private final String querySuffix;
-
-  private final int pageSize;
-
-  public FindComponentsCursorSupplier(final @Nullable String whereClause,
-                                      final @Nullable Map<String, Object> parameters,
-                                      final @Nullable Iterable<Repository> repositories,
-                                      final @Nullable String querySuffix)
-  {
-    this(whereClause, parameters, repositories, querySuffix, DEFAULT_PAGE_SIZE);
+  private Cursors() {
+    // no instance
   }
 
-  public FindComponentsCursorSupplier(final @Nullable String whereClause,
-                                      final @Nullable Map<String, Object> parameters,
-                                      final @Nullable Iterable<Repository> repositories,
-                                      final @Nullable String querySuffix,
-                                      final int pageSize)
+  /**
+   * Returns a cursor backed by {@link StorageTx#findComponents(String, Map, Iterable, String)} method using default
+   * page size.
+   */
+  public static Cursor<Component> findComponents(final @Nullable String whereClause,
+                                                 final @Nullable Map<String, Object> parameters,
+                                                 final @Nullable Iterable<Repository> repositories,
+                                                 final @Nullable String querySuffix)
+  {
+    return findComponents(whereClause, parameters, repositories, querySuffix, DEFAULT_PAGE_SIZE);
+  }
+
+  /**
+   * Returns a cursor backed by {@link StorageTx#findComponents(String, Map, Iterable, String)} method using specified
+   * page size.
+   */
+  public static Cursor<Component> findComponents(final @Nullable String whereClause,
+                                                 final @Nullable Map<String, Object> parameters,
+                                                 final @Nullable Iterable<Repository> repositories,
+                                                 final @Nullable String querySuffix,
+                                                 final int pageSize)
   {
     checkArgument(pageSize > 0, "must be a positive integer: %s", pageSize);
-
-    this.whereClause = whereClause;
-    this.parameters = parameters;
-    this.repositories = repositories;
-    this.querySuffix = querySuffix;
-    this.pageSize = pageSize;
-  }
-
-  @Nonnull
-  @Override
-  public Cursor<Component> get() {
     return new FCursor(
         whereClause,
         parameters,
@@ -85,17 +68,6 @@ public class FindComponentsCursorSupplier
         querySuffix,
         pageSize
     );
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName() + "{" +
-        "whereClause='" + whereClause + '\'' +
-        ", parameters=" + parameters +
-        ", repositories=" + repositories +
-        ", querySuffix='" + querySuffix + '\'' +
-        ", pageSize=" + pageSize +
-        '}';
   }
 
   private static class FCursor
@@ -159,18 +131,6 @@ public class FindComponentsCursorSupplier
         skip = limit;
         limit = limit + pageSize;
       }
-    }
-
-    @Nullable
-    @Override
-    public Component node(final StorageTx tx, final Component node) {
-      final Bucket bucket = tx.findBucket(node.bucketId());
-      if (bucket != null) {
-        if (node.getEntityMetadata() != null) {
-          return tx.findComponent(node.getEntityMetadata().getId(), bucket);
-        }
-      }
-      return null;
     }
 
     @Override

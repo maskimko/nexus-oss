@@ -13,7 +13,8 @@
 package org.sonatype.nexus.repository.storage;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.sonatype.nexus.common.collect.AutoClosableIterable;
 
 /**
  * A generic node cursor.
@@ -30,13 +31,6 @@ public interface Cursor<T>
    */
   @Nonnull
   Iterable<T> next(StorageTx tx);
-
-  /**
-   * Provides a fresh instance of the node, using current transaction. Might return {@code null} for various reasons,
-   * for example node got deleted between {@link #next(StorageTx)} and this method invocation.
-   */
-  @Nullable
-  T node(StorageTx tx, T node);
 
   /**
    * Closes the cursor, making the instance ineligible for further use.
