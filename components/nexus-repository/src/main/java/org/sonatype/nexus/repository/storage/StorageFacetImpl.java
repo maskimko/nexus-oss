@@ -13,8 +13,6 @@
 
 package org.sonatype.nexus.repository.storage;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -30,8 +28,6 @@ import org.sonatype.nexus.repository.config.ConfigurationFacet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -172,7 +168,6 @@ public class StorageFacetImpl
     checkNotNull(visitor);
 
     final Stopwatch stopwatch = Stopwatch.createStarted();
-    List<T> nodes = Lists.newArrayList();
     try {
       try (StorageTx tx = openTx()) {
         log.debug("Visit before: cursor={}, visitor={}", cursor, visitor);
@@ -180,10 +175,9 @@ public class StorageFacetImpl
       }
       while (true) {
         try (StorageTx tx = openTx()) {
-          nodes.clear();
           try {
-            Iterables.addAll(nodes, cursor.next(tx));
-            if (nodes.isEmpty()) {
+            final Iterable<T> nodes = cursor.next(tx);
+            if (nodes == null) {
               log.debug("Components cursor exhausted: cursor={}, visitor={}", cursor, visitor);
               break;
             }
