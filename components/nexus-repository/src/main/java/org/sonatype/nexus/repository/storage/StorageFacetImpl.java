@@ -173,8 +173,8 @@ public class StorageFacetImpl
         log.debug("Visit before: cursor={}, visitor={}", cursor, visitor);
         visitor.before(tx);
       }
-      while (true) {
-        try (StorageTx tx = openTx()) {
+      try (StorageTx tx = openTx()) {
+        while (true) {
           try {
             final Iterable<T> nodes = cursor.next(tx);
             if (nodes == null) {
@@ -184,6 +184,7 @@ public class StorageFacetImpl
             for (T node : nodes) {
               visitor.visit(tx, node);
             }
+            tx.commit();
           }
           catch (Exception e) {
             log.warn("Visiting failed: cursor={}, visitor={}", cursor, visitor, e);
